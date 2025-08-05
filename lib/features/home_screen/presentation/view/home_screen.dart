@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                 maximumSize: Size(250.w, 90.h), // حجم الزر
               ),
               child: Text(
-                'Let’s Go',
+                'Let’s Goooo',
                 style: TextStyle(
                   fontSize: 25.sp,
                   color: color.primary,
