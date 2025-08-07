@@ -92,9 +92,9 @@ flutter:
         - asset: fonts/Chewy-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-    # - family: Fredoka
-    #   fonts:
-    #     - asset: fonts/Fredoka/static/
+    - family: Fredoka
+      fonts:
+        - asset: fonts/Fredoka/Fredoka-VariableFont_wdth,wght.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

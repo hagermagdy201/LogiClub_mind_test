@@ -1,4 +1,5 @@
 import 'dart:ui';
 
-const Color primary = Color(0xFFfc970b);
-const Color secondary = Color(0xFF108b91);
+const Color primary = Color.fromARGB(255, 255, 164, 36);
+const Color secondary = Color(0xFF54c4cc);
+const Color whiteColor = Color.fromARGB(255, 255, 255, 255);

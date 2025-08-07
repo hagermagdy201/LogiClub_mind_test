@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logiclub/features/home_screen/presentation/view/widgets/btn_view.dart';
 import 'package:logiclub/features/home_screen/presentation/view/widgets/logo_image_container.dart';
-import 'package:logiclub/features/home_screen/presentation/view/widgets/txt_view.dart';
 
 class HomeViewBodyPortrait extends StatelessWidget {
   const HomeViewBodyPortrait({super.key});
@@ -13,7 +12,7 @@ class HomeViewBodyPortrait extends StatelessWidget {
       children: [
         LogoImageContainer(),
         SizedBox(height: MediaQuery.of(context).size.height / 20),
-        TxtView(),
+        // TxtView(),
         SizedBox(height: MediaQuery.of(context).size.height / 12),
         BtnView(),
       ],

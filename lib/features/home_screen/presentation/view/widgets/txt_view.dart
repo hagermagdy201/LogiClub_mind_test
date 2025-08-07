@@ -2,18 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TxtView extends StatelessWidget {
-  const TxtView({super.key});
+  final String? text;
+  final int? fontSize;
+  final FontWeight? weight;
+  final Color? color;
+  const TxtView({
+    required this.text,
+    required this.fontSize,
+    required this.weight,
+    required this.color,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 250.w,
+      width: 400.w,
       child: Text(
-        'Let’s test your brain power! Ready?',
+        text ?? '',
         style: TextStyle(
-          fontSize: 40.sp,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+          fontSize: fontSize?.sp,
+          color: color ?? Colors.black87,
+          fontWeight: weight ?? FontWeight.normal,
           fontFamily: "Chewy",
         ),
         textAlign: TextAlign.center,
