@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,8 +18,8 @@ class TxtView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 400.w,
-      child: Text(
+      width: double.infinity,
+      child: AutoSizeText(
         text ?? '',
         style: TextStyle(
           fontSize: fontSize?.sp,

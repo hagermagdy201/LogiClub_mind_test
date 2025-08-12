@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final devicemediaorientation = MediaQuery.of(context).orientation;
-    print("Device Orientation:-------------------- $devicemediaorientation");
+    // print("Device Orientation:-------------------- $devicemediaorientation");
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -27,6 +27,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-// child: devicemediaorientation == Orientation.portrait
-//             ? HomeViewBodyPortrait()
-//             : HomeViewBodyLandscape(),
