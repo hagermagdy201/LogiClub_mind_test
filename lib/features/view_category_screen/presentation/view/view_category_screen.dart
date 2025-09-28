@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
-import 'package:logiclub/features/Question_screen/presentation/view/widgets/question_screen_body.dart';
+import 'package:logiclub/features/view_category_screen/presentation/view/widgets/view_category_screen_body.dart';
 
-class QuestionScreen extends StatelessWidget {
-  const QuestionScreen({super.key});
+class ViewCategoryScreen extends StatelessWidget {
+  const ViewCategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class QuestionScreen extends StatelessWidget {
             fit: BoxFit.fill,
           ),
         ),
-        child: QuestionScreenBody(),
+        child: ViewCategoryScreenBody(),
       ),
     );
   }

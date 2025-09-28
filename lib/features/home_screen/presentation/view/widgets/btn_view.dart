@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
-import 'package:logiclub/features/Question_screen/presentation/view/question_screen.dart';
+import 'package:logiclub/features/view_category_screen/presentation/view/view_category_screen.dart';
 
 class BtnView extends StatelessWidget {
   const BtnView({super.key});
@@ -12,7 +12,7 @@ class BtnView extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const QuestionScreen()),
+          MaterialPageRoute(builder: (context) => const ViewCategoryScreen()),
         );
       },
       style: ElevatedButton.styleFrom(

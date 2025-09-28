@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class FruitCard extends StatelessWidget {
+class CategoryCard extends StatelessWidget {
   final String title;
   final String numofQue;
   final Color bgColor;
-  const FruitCard({
-    Key? key,
+
+  const CategoryCard({
+    super.key,
     required this.title,
     required this.numofQue,
     required this.bgColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

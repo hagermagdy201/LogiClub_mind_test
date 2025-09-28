@@ -14,17 +14,9 @@ class HomeViewPortrait extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width / 1,
           height: MediaQuery.of(context).size.height / 1.7,
-          // decoration: BoxDecoration(
-          //   color: const Color.fromARGB(95, 255, 255, 255),
-          //   border: Border.all(
-          //     color: const Color.fromARGB(255, 255, 255, 255),
-          //     width: 2,
-          //   ),
-          //   borderRadius: BorderRadius.circular(30.sp),
-          // ),
           child: Stack(
             children: [
               Center(
