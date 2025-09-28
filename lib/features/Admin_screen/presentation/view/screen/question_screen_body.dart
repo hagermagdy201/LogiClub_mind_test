@@ -120,7 +120,7 @@ class _QuestionScreenBodyState extends State<QuestionScreenBody> {
                         "option2": option2Controller.text,
                         "option3": option3Controller.text,
                         "option4": option4Controller.text,
-                        "correctanswer": int.parse(answerController.text),
+                        "correctAnswer": int.parse(answerController.text),
                       });
                   keyGlobal.currentState!.reset();
                   SnackbarScreen.showSuccess(
