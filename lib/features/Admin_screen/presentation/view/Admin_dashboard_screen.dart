@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
-import 'package:logiclub/features/Admin_screen/presentation/view/screen/admin_dashboard_screen_body.dart';
+import 'package:logiclub/features/Admin_screen/presentation/view/widgets/admin_dashboard_screen_body.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
 import 'package:logiclub/features/Admin_screen/presentation/view/widgets/showdialogbox.dart';
 

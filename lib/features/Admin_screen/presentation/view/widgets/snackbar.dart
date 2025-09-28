@@ -11,8 +11,8 @@ class SnackbarScreen {
       titleText: Text(
         title,
         style: TextStyle(
-          fontSize: 24, // 👈 حجم الخط
-          fontWeight: FontWeight.bold, // 👈 تخانة الخط
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
-import 'package:logiclub/features/Admin_screen/presentation/view/question_screen.dart';
+import 'package:logiclub/features/Add_question_scren/presentation/question_screen.dart';
 import 'package:logiclub/features/Admin_screen/presentation/view/widgets/snackbar.dart';
 
 class AdminDashboardScreenBody extends StatefulWidget {
