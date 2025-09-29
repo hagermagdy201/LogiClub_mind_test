@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/features/Quiz_screen/presentation/quiz_screen.dart';
 import 'package:logiclub/features/view_category_screen/presentation/view/widgets/card.dart';
 import 'package:logiclub/features/view_category_screen/presentation/view/widgets/txt_view_category.dart';
 
@@ -64,8 +65,14 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
 
                     return GestureDetector(
                       onTap: () {
-                        // TODO: Navigate to questions screen
                         print("Tapped on $categoryName");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                QuizScreen(categoryName: categoryName),
+                          ),
+                        );
                       },
                       child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance

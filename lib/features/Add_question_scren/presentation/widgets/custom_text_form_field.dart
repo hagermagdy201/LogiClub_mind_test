@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomTextFormField extends StatelessWidget {
+class CustomTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final String label;
   final int maxLength;
@@ -16,17 +17,29 @@ class CustomTextFormField extends StatelessWidget {
   });
 
   @override
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enableInteractiveSelection: true, // يخلي النسخ/اللصق متاح
+      toolbarOptions: ToolbarOptions(
+        paste: true,
+        copy: true,
+        cut: true,
+        selectAll: true,
+      ),
       style: TextStyle(
         color: Colors.white,
         fontSize: 30.sp,
         fontWeight: FontWeight.bold,
       ),
-      controller: controller,
-      maxLength: maxLength,
+      controller: widget.controller,
+      maxLength: widget.maxLength,
       decoration: InputDecoration(
-        label: Text(label),
+        label: Text(widget.label),
         labelStyle: TextStyle(
           color: Colors.white,
           fontSize: 30.sp,
@@ -50,7 +63,7 @@ class CustomTextFormField extends StatelessWidget {
         ),
         contentPadding: EdgeInsets.symmetric(vertical: 30, horizontal: 16),
       ),
-      validator: validator,
+      validator: widget.validator,
     );
   }
 }
