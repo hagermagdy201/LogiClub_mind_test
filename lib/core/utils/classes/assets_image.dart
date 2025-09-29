@@ -5,4 +5,5 @@ class AssetsPaths {
   static String blackbackgroundImage = "assets/images/backnote.png";
   static String whitebackgroundImage = "assets/images/whitenote.png";
   static String logoLogiclub = "assets/images/logiclub.png";
+  static String celebrate = "assets/images/download.jpeg";
 }

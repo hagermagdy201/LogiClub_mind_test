@@ -20,6 +20,7 @@ void main() async {
     DevicePreview(
       enabled: !kReleaseMode,
       builder: (BuildContext context) {
+        WidgetsFlutterBinding.ensureInitialized();
         return MyApp();
       },
     ),

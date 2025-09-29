@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -24,13 +23,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      enableInteractiveSelection: true, // يخلي النسخ/اللصق متاح
-      toolbarOptions: ToolbarOptions(
-        paste: true,
-        copy: true,
-        cut: true,
-        selectAll: true,
-      ),
       style: TextStyle(
         color: Colors.white,
         fontSize: 30.sp,

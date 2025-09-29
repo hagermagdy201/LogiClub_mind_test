@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
 
 class QuizScreenBody extends StatefulWidget {
@@ -13,6 +16,32 @@ class QuizScreenBody extends StatefulWidget {
 }
 
 class _QuizScreenBodyState extends State<QuizScreenBody> {
+  int currentIndex = 0;
+  int? selectedIndex;
+  int? correctAnswerIndex;
+  late AudioPlayer player = AudioPlayer();
+
+  final List<String> successSounds = [
+    'Audios/level-up-22268.mp3',
+    'Audios/shine-11-268907.mp3',
+    'Audios/woman-excited-cheers-and-phrases-says-woohoo-186739.mp3',
+  ];
+
+  Future<void> playRandomSuccessSound() async {
+    final random = Random();
+    int index = random.nextInt(successSounds.length); // رقم عشوائي
+    String soundPath = successSounds[index];
+    print(":__________________index $index");
+    await player.play(
+      AssetSource(
+        "Audios/woman-excited-cheers-and-phrases-says-woohoo-186739.mp3",
+      ),
+    );
+    Future.delayed(Duration(seconds: 5), () {
+      player.stop();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -27,6 +56,7 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
             ),
           ),
         ),
+
         SafeArea(
           child: Column(
             children: [
@@ -35,13 +65,21 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                 child: Text(
                   widget.categoryName,
                   style: TextStyle(
-                    color: color.whiteColor,
+                    color: color.primary,
                     fontSize: 50.sp,
                     fontWeight: FontWeight.bold,
                     fontFamily: "Chewy",
                   ),
                 ),
               ),
+              Divider(
+                color: color.primary,
+                thickness: 3,
+                height: 30,
+                indent: 200,
+                endIndent: 200,
+              ),
+
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
@@ -69,124 +107,169 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                     }
 
                     final docs = snapshot.data!.docs;
+                    final questionData =
+                        docs[currentIndex].data() as Map<String, dynamic>;
 
-                    return PageView.builder(
-                      itemCount: docs.length,
-                      itemBuilder: (context, index) {
-                        final questionData =
-                            docs[index].data() as Map<String, dynamic>;
+                    final options = [
+                      questionData['option1'],
+                      questionData['option2'],
+                      questionData['option3'],
+                      questionData['option4'],
+                    ].where((e) => e != null).toList();
 
-                        final options = [
-                          questionData['option1'],
-                          questionData['option2'],
-                          questionData['option3'],
-                          questionData['option4'],
-                        ].where((e) => e != null).toList();
+                    final correctAnswer = int.tryParse(
+                      questionData['correctAnswer'].toString(),
+                    );
 
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 10.h,
-                            horizontal: 15.w,
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(15.w),
-
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  //Qustion text
-                                  Container(
-                                    width: double.infinity,
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15.r),
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          AssetsPaths.orangebackgroundImage,
-                                        ),
-                                        fit: BoxFit.cover,
-                                        colorFilter: ColorFilter.mode(
-                                          Colors.white.withOpacity(0.4),
-                                          BlendMode.srcOver,
-                                        ),
-                                      ),
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 20.h,
+                        horizontal: 70.w,
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(15.w),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // Question Text
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(40.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.r),
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      AssetsPaths.orangebackgroundImage,
                                     ),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      questionData['question'] ??
-                                          'No question text',
-                                      style: TextStyle(
-                                        color: const Color.fromARGB(
-                                          255,
-                                          255,
-                                          255,
-                                          255,
-                                        ),
-                                        fontSize: 28.sp,
-                                      ),
-                                      textAlign: TextAlign.center,
+                                    fit: BoxFit.cover,
+                                    colorFilter: ColorFilter.mode(
+                                      Colors.white.withOpacity(0.2),
+                                      BlendMode.srcOver,
                                     ),
                                   ),
-
-                                  SizedBox(height: 20.h),
-
-                                  // Options
-                                  ...List.generate(options.length, (
-                                    optionIndex,
-                                  ) {
-                                    final optionText =
-                                        options[optionIndex] ??
-                                        'No option text';
-
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 8.h,
-                                        horizontal: 20.w,
-                                      ),
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: color.secondary
-                                              .withOpacity(0.8),
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 12.h,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              10.r,
-                                            ),
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          // هنا تعملي مقارنة بين الاختيار و questionData['correctAnswer']
-                                          // optionIndex + 1 = رقم الاختيار (عشان عندك option1, option2...)
-                                          final isCorrect =
-                                              (optionIndex + 1).toString() ==
-                                              questionData['correctAnswer']
-                                                  .toString();
-
-                                          if (isCorrect) {
-                                            print("إجابة صحيحة ✅");
-                                          } else {
-                                            print("إجابة خاطئة ❌");
-                                          }
-                                        },
-                                        child: Text(
-                                          optionText,
-                                          style: TextStyle(
-                                            color: color.whiteColor,
-                                            fontSize: 24.sp,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                                ],
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  questionData['question'] ??
+                                      'No question text',
+                                  style: TextStyle(
+                                    color: color.whiteColor,
+                                    fontSize: 34.sp,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "Chewy",
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
-                            ),
+
+                              SizedBox(height: 50.h),
+
+                              //Options
+                              ...List.generate(options.length, (optionIndex) {
+                                final optionText =
+                                    options[optionIndex] ?? 'No option text';
+
+                                final isSelected = selectedIndex == optionIndex;
+
+                                Color btnColor = color.cardColor;
+                                if (isSelected) {
+                                  if ((optionIndex) == correctAnswer) {
+                                    btnColor = Colors.green;
+                                  } else {
+                                    btnColor = Colors.red;
+                                  }
+                                }
+
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 8.h,
+                                    horizontal: 20.w,
+                                  ),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: btnColor,
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 12.h,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            30.r,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedIndex = optionIndex;
+                                          correctAnswerIndex = correctAnswer;
+                                        });
+
+                                        if ((optionIndex) == correctAnswer) {
+                                          // GIF
+                                          showDialog(
+                                            context: context,
+                                            builder: (_) => Dialog(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Image.asset(
+                                                    AssetsPaths.celebrate,
+                                                    height: 250,
+                                                    width: 250,
+                                                  ),
+                                                  SizedBox(height: 20),
+                                                  Text(
+                                                    "Correct Answer! 🎉",
+                                                    style: TextStyle(
+                                                      fontSize: 28,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                          playRandomSuccessSound();
+                                          Future.delayed(
+                                            Duration(seconds: 2),
+                                            () {
+                                              Navigator.of(context).pop();
+                                              setState(() {
+                                                currentIndex++;
+                                                selectedIndex = null;
+                                              });
+                                            },
+                                          );
+                                        } else {
+                                          print("إجابة خاطئة ❌");
+                                          setState(() {
+                                            currentIndex++;
+                                            selectedIndex = null;
+                                          });
+                                        }
+                                      },
+                                      child: Text(
+                                        optionText,
+                                        style: TextStyle(
+                                          color: color.whiteColor,
+                                          fontSize: 32.sp,
+                                          fontFamily: "Chewy",
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     );
                   },
                 ),
