@@ -43,6 +43,8 @@ dependencies:
   shared_preferences: ^2.5.3
   get: ^4.7.2  #state management
   audioplayers: ^6.5.1  #lottie: ^2.2.0  #animations
+  video_player: ^2.10.0 #video player
+  chewie: ^1.13.0 #video player
   
   
 

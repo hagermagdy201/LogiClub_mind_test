@@ -17,6 +17,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white, size: 40.sp),
         backgroundColor: color.blackColor,
         title: Text(
           'Admin Dashboard',

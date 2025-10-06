@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:logiclub/core/utils/classes/assets_sound.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'dart:ui';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizScreenBody extends StatefulWidget {
   const QuizScreenBody({super.key, required this.categoryName});
@@ -20,26 +23,125 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
   int? selectedIndex;
   int? correctAnswerIndex;
   late AudioPlayer player = AudioPlayer();
+  int shownCount = 0;
 
   final List<String> successSounds = [
-    'Audios/level-up-22268.mp3',
-    'Audios/shine-11-268907.mp3',
-    'Audios/woman-excited-cheers-and-phrases-says-woohoo-186739.mp3',
+    AssetsSound.win1sound,
+    AssetsSound.win2sound,
+    AssetsSound.win3sound,
+    AssetsSound.win4sound,
+  ];
+
+  final List<String> failSounds = [
+    AssetsSound.lose1sound,
+    AssetsSound.lose2sound,
+    AssetsSound.lose3sound,
+    AssetsSound.lose4sound,
+    AssetsSound.lose5sound,
+    AssetsSound.lose6sound,
+  ];
+
+  final List<String> happyImage = [
+    AssetsPaths.happy1,
+    AssetsPaths.happy2,
+    AssetsPaths.happy3,
+    AssetsPaths.happy4,
+    AssetsPaths.happy5,
+    AssetsPaths.happy7,
+  ];
+
+  final List<String> sadImage = [
+    AssetsPaths.sad1,
+    AssetsPaths.sad2,
+    AssetsPaths.sad3,
+    AssetsPaths.sad4,
+    AssetsPaths.sad5,
+    AssetsPaths.sad6,
+    AssetsPaths.sad7,
+  ];
+
+  final List<String> MotivationalWords = [
+    'Don’t give up! You can do it! 💪',
+    'Almost there! Try again 🌟',
+    'Not this time, but you’re getting smarter 🧠',
+    'Keep pushing! Success is near 🚀',
+    "Good effort! Let’s try once more! 😊",
+  ];
+
+  final List<String> SuccessfulWords = [
+    "Awesome! You’re a real champion! 💪",
+    'Excellent! You’re doing amazing! 🏆',
+    "Bravo! You did it!",
+    "Yay! You got it right! 🎉",
+    "Correct! You’re a superstar! 🌟",
   ];
 
   Future<void> playRandomSuccessSound() async {
     final random = Random();
-    int index = random.nextInt(successSounds.length); // رقم عشوائي
+    int index = random.nextInt(successSounds.length);
     String soundPath = successSounds[index];
-    print(":__________________index $index");
-    await player.play(
-      AssetSource(
-        "Audios/woman-excited-cheers-and-phrases-says-woohoo-186739.mp3",
-      ),
-    );
-    Future.delayed(Duration(seconds: 5), () {
+    // print(":__________________index $index");
+    await player.play(AssetSource(soundPath));
+    Future.delayed(Duration(seconds: 3), () {
       player.stop();
     });
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<void> PlayRandamFailSound() async {
+    final random = Random();
+    int index = random.nextInt(failSounds.length);
+    String soundPath = failSounds[index];
+    // print(":__________________index $index");
+    await player.play(AssetSource(soundPath));
+    Future.delayed(Duration(seconds: 3), () {
+      player.stop();
+    });
+  }
+
+  String getRandomHappyImage() {
+    final random = Random();
+    int index = random.nextInt(happyImage.length);
+    return happyImage[index];
+  }
+
+  String getRandomSadImage() {
+    final random = Random();
+    int index = random.nextInt(sadImage.length);
+    return sadImage[index];
+  }
+
+  String getRandomMotivationalWord() {
+    final random = Random();
+    int index = random.nextInt(MotivationalWords.length);
+    return MotivationalWords[index];
+  }
+
+  String getRandomSuccessfulWord() {
+    final random = Random();
+    int index = random.nextInt(SuccessfulWords.length);
+    return SuccessfulWords[index];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // _increaseShownQuestions();
+    clearAllSharedPrefs();
+  }
+
+  Future<void> clearAllSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // دي بتمسح كل المفاتيح
+    print("✅ SharedPreferences تم تصفيرها بالكامل");
+  }
+
+  Future<void> _increaseShownQuestions() async {
+    final prefs = await SharedPreferences.getInstance();
+    shownCount = prefs.getInt('shown_questions') ?? 0;
+    shownCount++;
+    await prefs.setInt('shown_questions', shownCount);
+    print("📚 الأسئلة اللي اتعرضت: $shownCount");
   }
 
   @override
@@ -109,6 +211,7 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                     final docs = snapshot.data!.docs;
                     final questionData =
                         docs[currentIndex].data() as Map<String, dynamic>;
+                    final int totalQuestions = docs.length;
 
                     final options = [
                       questionData['option1'],
@@ -205,31 +308,63 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                                           selectedIndex = optionIndex;
                                           correctAnswerIndex = correctAnswer;
                                         });
-
                                         if ((optionIndex) == correctAnswer) {
+                                          _increaseShownQuestions();
+                                          print("Correct Answer ✅");
                                           // GIF
                                           showDialog(
                                             context: context,
                                             builder: (_) => Dialog(
                                               backgroundColor:
                                                   Colors.transparent,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
+                                              insetPadding: EdgeInsets.all(16),
+                                              child: Stack(
+                                                alignment: Alignment.center,
                                                 children: [
-                                                  Image.asset(
-                                                    AssetsPaths.celebrate,
-                                                    height: 250,
-                                                    width: 250,
-                                                  ),
-                                                  SizedBox(height: 20),
-                                                  Text(
-                                                    "Correct Answer! 🎉",
-                                                    style: TextStyle(
-                                                      fontSize: 28,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white,
+                                                  BackdropFilter(
+                                                    filter: ImageFilter.blur(
+                                                      sigmaX: 10,
+                                                      sigmaY: 10,
                                                     ),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              20,
+                                                            ),
+                                                        color:
+                                                            const Color.fromARGB(
+                                                              255,
+                                                              46,
+                                                              45,
+                                                              45,
+                                                            ).withOpacity(0.3),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Image.asset(
+                                                        getRandomHappyImage(),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 40,
+                                                      ),
+                                                      Text(
+                                                        getRandomSuccessfulWord(),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontSize: 45,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white,
+                                                          height: 1.3,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
@@ -237,21 +372,98 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                                           );
                                           playRandomSuccessSound();
                                           Future.delayed(
-                                            Duration(seconds: 2),
+                                            Duration(seconds: 3),
                                             () {
                                               Navigator.of(context).pop();
                                               setState(() {
-                                                currentIndex++;
-                                                selectedIndex = null;
+                                                if (shownCount ==
+                                                    totalQuestions) {
+                                                  Navigator.of(context).pop();
+                                                } else {
+                                                  currentIndex++;
+                                                  selectedIndex = null;
+                                                }
                                               });
                                             },
                                           );
                                         } else {
-                                          print("إجابة خاطئة ❌");
-                                          setState(() {
-                                            currentIndex++;
-                                            selectedIndex = null;
-                                          });
+                                          _increaseShownQuestions();
+                                          print("wrong Answer ❌");
+                                          // GIF
+                                          showDialog(
+                                            context: context,
+                                            builder: (_) => Dialog(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              insetPadding: EdgeInsets.all(16),
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  BackdropFilter(
+                                                    filter: ImageFilter.blur(
+                                                      sigmaX: 10,
+                                                      sigmaY: 10,
+                                                    ),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              20,
+                                                            ),
+                                                        color:
+                                                            const Color.fromARGB(
+                                                              255,
+                                                              46,
+                                                              45,
+                                                              45,
+                                                            ).withOpacity(0.3),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Image.asset(
+                                                        getRandomSadImage(),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 40,
+                                                      ),
+                                                      Text(
+                                                        getRandomMotivationalWord(),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontSize: 45,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white,
+                                                          height: 1.3,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                          PlayRandamFailSound();
+                                          Future.delayed(
+                                            Duration(seconds: 3),
+                                            () {
+                                              Navigator.of(context).pop();
+                                              setState(() {
+                                                if (shownCount ==
+                                                    totalQuestions) {
+                                                  Navigator.of(context).pop();
+                                                } else {
+                                                  currentIndex++;
+                                                  selectedIndex = null;
+                                                }
+                                              });
+                                            },
+                                          );
                                         }
                                       },
                                       child: Text(

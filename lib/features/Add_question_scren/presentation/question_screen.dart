@@ -19,6 +19,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white, size: 40.sp),
         backgroundColor: color.blackColor,
         title: Text(
           'AddQuestion',

@@ -23,15 +23,7 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
       padding: const EdgeInsets.all(18.0),
       child: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: 10.w),
-            child: TxtView(
-              text: "Choose your category and let’s go",
-              fontSize: 55,
-              weight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
+          SizedBox(height: 50.h),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
