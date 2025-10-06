@@ -101,7 +101,7 @@ class _QuestionScreenBodyState extends State<QuestionScreenBody> {
                 } else if (int.tryParse(value) == null ||
                     int.parse(value) < 0 ||
                     int.parse(value) > 4) {
-                  return 'Please enter a valid number between 0 and 4';
+                  return 'Please enter a valid number between 0 and 3';
                 }
                 return null;
               },
