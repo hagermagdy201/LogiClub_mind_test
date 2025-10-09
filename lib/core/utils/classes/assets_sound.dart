@@ -9,4 +9,5 @@ class AssetsSound {
   static const String win2sound = 'Audios/win2.wav';
   static const String win3sound = 'Audios/win3.mp3';
   static const String win4sound = 'Audios/win4.mp3';
+  static const String winningsound = 'Audios/winning.mp3';
 }

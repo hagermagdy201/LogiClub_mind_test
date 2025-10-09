@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
-import 'package:logiclub/features/home_screen/presentation/view/widgets/txt_view_home.dart';
 import 'package:logiclub/features/view_category_screen/presentation/view/widgets/view_category_screen_body.dart';
 
 class ViewCategoryScreen extends StatelessWidget {

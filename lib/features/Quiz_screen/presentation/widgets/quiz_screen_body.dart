@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
 import 'package:logiclub/features/Quiz_screen/presentation/widgets/quiz_helpers.dart';
+import 'package:logiclub/features/spin_wheel_screen/presentation/spin_wheel_screen.dart';
 import 'dart:ui';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -282,7 +283,12 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                                                 setState(() {
                                                   if (shownCount ==
                                                       totalQuestions) {
-                                                    Navigator.of(context).pop();
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            SpinWheelScreen(),
+                                                      ),
+                                                    );
                                                   } else {
                                                     currentIndex++;
                                                     selectedIndex = null;
@@ -368,7 +374,12 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                                                 setState(() {
                                                   if (shownCount ==
                                                       totalQuestions) {
-                                                    Navigator.of(context).pop();
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            SpinWheelScreen(),
+                                                      ),
+                                                    );
                                                   } else {
                                                     currentIndex++;
                                                     selectedIndex = null;
