@@ -11,7 +11,7 @@ class AssetsPaths {
   static String happy4 = "assets/images/happy4.jpeg";
   static String happy5 = "assets/images/happy5.jpeg";
   static String happy7 = "assets/images/happy7.jpeg";
-  static String sad1 = "assets/images/sad1.jpeg";
+  static String sad1 = "assets/images/sad1.jpg";
   static String sad2 = "assets/images/sad2.jpeg";
   static String sad3 = "assets/images/sad3.jpeg";
   static String sad4 = "assets/images/sad4.jpeg";
