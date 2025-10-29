@@ -7,7 +7,6 @@ import 'package:logiclub/core/utils/classes/assets_sound.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'dart:async';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
-import 'package:logiclub/features/view_category_screen/presentation/view/view_category_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SpinWheelScreenBody extends StatefulWidget {
@@ -22,15 +21,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBody> {
   String rewardValue = "";
   late AudioPlayer player = AudioPlayer();
 
-  List<String> giveaway = [
-    "Note Book",
-    "Pen",
-    "Stress ball",
-    "Coaster",
-    "Tote Bag",
-    "Mug",
-    "sticker",
-  ];
+  List<String> giveaway = ["20% vouchers", "Cap", "Sunshade"];
 
   Future<void> playSuccessSound() async {
     String soundPath = AssetsSound.winningsound;
@@ -119,7 +110,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBody> {
                   setState(() {
                     rewardValue = giveaway[selected.value];
                   });
-                  print("-----------------------${rewardValue}");
+                  print("-----------------------$rewardValue");
                   playSuccessSound();
 
                   showDialog(

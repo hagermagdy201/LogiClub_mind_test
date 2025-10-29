@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
-import 'package:logiclub/features/home_screen/presentation/view/widgets/home_view_landscape.dart';
-import 'package:logiclub/features/home_screen/presentation/view/widgets/home_view_portrait.dart';
+import 'package:logiclub/features/home_screen/presentation/view/widgets/LandScape_Screen/home_view_landscape.dart';
+import 'package:logiclub/features/home_screen/presentation/view/widgets/Portrait_screen/home_view_portrait.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final devicemediaorientation = MediaQuery.of(context).orientation;
-    // print("Device Orientation:-------------------- $devicemediaorientation");
+    print("Device Orientation:-------------------- $devicemediaorientation");
     return Scaffold(
       body: Container(
         width: double.infinity,

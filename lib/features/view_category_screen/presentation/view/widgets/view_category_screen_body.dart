@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
 import 'package:logiclub/features/Quiz_screen/presentation/quiz_screen.dart';
 import 'package:logiclub/features/view_category_screen/presentation/view/widgets/card.dart';
-import 'package:logiclub/features/view_category_screen/presentation/view/widgets/txt_view_category.dart';
 
 class ViewCategoryScreenBody extends StatefulWidget {
   const ViewCategoryScreenBody({super.key});

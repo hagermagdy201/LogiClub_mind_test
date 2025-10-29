@@ -20,6 +20,7 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
   int currentIndex = 0;
   int? selectedIndex;
   int? correctAnswerIndex;
+  late Future<List<Map<String, dynamic>>> questionsFuture;
 
   int shownCount = 0;
 
@@ -27,6 +28,7 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
   void initState() {
     super.initState();
     clearAllSharedPrefs();
+    questionsFuture = fetchRandomQuestions();
   }
 
   Future<void> clearAllSharedPrefs() async {
@@ -39,6 +41,26 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
     shownCount = prefs.getInt('shown_questions') ?? 0;
     shownCount++;
     await prefs.setInt('shown_questions', shownCount);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchRandomQuestions() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('questions_category')
+        .doc(widget.categoryName)
+        .collection('questions')
+        .get();
+
+    final allQuestions = snapshot.docs
+        .map((e) => e.data() as Map<String, dynamic>)
+        .toList();
+
+    allQuestions.shuffle();
+
+    final randomTen = allQuestions.length > 10
+        ? allQuestions.take(10).toList()
+        : allQuestions;
+
+    return randomTen;
   }
 
   @override
@@ -80,21 +102,17 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
               ),
 
               Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('questions_category')
-                      .doc(widget.categoryName)
-                      .collection('questions')
-                      .snapshots(),
+                child: FutureBuilder<List<Map<String, dynamic>>>(
+                  future: questionsFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
 
-                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return Center(
                         child: Text(
-                          "No questions found for this category   '-'",
+                          "No questions found for this category '-'",
                           style: TextStyle(
                             color: color.whiteColor,
                             fontSize: 30.sp,
@@ -105,11 +123,10 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                       );
                     }
 
-                    final docs = snapshot.data!.docs;
-                    final questionData =
-                        docs[currentIndex].data() as Map<String, dynamic>;
-                    final int totalQuestions = docs.length;
+                    final questions = snapshot.data!;
+                    final totalQuestions = questions.length;
 
+                    final questionData = questions[currentIndex];
                     final options = [
                       questionData['option1'],
                       questionData['option2'],
@@ -120,7 +137,6 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                     final correctAnswer = int.tryParse(
                       questionData['correctAnswer'].toString(),
                     );
-
                     return Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 20.h,
@@ -207,8 +223,9 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                                         });
                                         if ((optionIndex) == correctAnswer) {
                                           Future.delayed(Duration(seconds: 1), () {
-                                            _increaseShownQuestions();
                                             print("Correct Answer ✅");
+                                            _increaseShownQuestions();
+
                                             // GIF
                                             showDialog(
                                               context: context,
@@ -277,7 +294,7 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                                             QuizHelpers()
                                                 .playRandomSuccessSound();
                                             Future.delayed(
-                                              Duration(seconds: 3),
+                                              Duration(seconds: 2),
                                               () {
                                                 Navigator.of(context).pop();
                                                 setState(() {
@@ -290,8 +307,9 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                                                       ),
                                                     );
                                                   } else {
-                                                    currentIndex++;
                                                     selectedIndex = null;
+                                                    correctAnswerIndex = null;
+                                                    currentIndex++;
                                                   }
                                                 });
                                               },
@@ -299,8 +317,9 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                                           });
                                         } else {
                                           Future.delayed(Duration(seconds: 1), () {
-                                            _increaseShownQuestions();
                                             print("wrong Answer ❌");
+                                            _increaseShownQuestions();
+
                                             // GIF
                                             showDialog(
                                               context: context,
@@ -368,7 +387,7 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                                             );
                                             QuizHelpers().PlayRandamFailSound();
                                             Future.delayed(
-                                              Duration(seconds: 3),
+                                              Duration(seconds: 2),
                                               () {
                                                 Navigator.of(context).pop();
                                                 setState(() {
@@ -381,8 +400,9 @@ class _QuizScreenBodyState extends State<QuizScreenBody> {
                                                       ),
                                                     );
                                                   } else {
-                                                    currentIndex++;
                                                     selectedIndex = null;
+                                                    correctAnswerIndex = null;
+                                                    currentIndex++;
                                                   }
                                                 });
                                               },
