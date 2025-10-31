@@ -13,12 +13,12 @@ class ViewCategoryScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         toolbarHeight: 80,
-        iconTheme: IconThemeData(color: Colors.white, size: 40.sp),
+        iconTheme: IconThemeData(color: Colors.white, size: 20.sp),
         title: Text(
           "Choose your category and let’s go",
           style: TextStyle(
             color: color.whiteColor,
-            fontSize: 55.sp,
+            fontSize: 22.sp,
             fontWeight: FontWeight.bold,
             fontFamily: "Chewy",
           ),
@@ -45,11 +45,3 @@ class ViewCategoryScreen extends StatelessWidget {
     );
   }
 }
-/*Text(
-          'Quiz',
-          style: TextStyle(
-            color: color.whiteColor,
-            fontSize: 26.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ), */
