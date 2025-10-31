@@ -9,14 +9,15 @@ import 'dart:async';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
 import 'package:rxdart/rxdart.dart';
 
-class SpinWheelScreenBody extends StatefulWidget {
-  const SpinWheelScreenBody({super.key});
+class SpinWheelScreenBodyPortrait extends StatefulWidget {
+  const SpinWheelScreenBodyPortrait({super.key});
 
   @override
-  State<SpinWheelScreenBody> createState() => _SpinWheelScreenBodyState();
+  State<SpinWheelScreenBodyPortrait> createState() =>
+      _SpinWheelScreenBodyState();
 }
 
-class _SpinWheelScreenBodyState extends State<SpinWheelScreenBody> {
+class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyPortrait> {
   final selected = BehaviorSubject<int>();
   String rewardValue = "";
   late AudioPlayer player = AudioPlayer();
@@ -52,14 +53,14 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBody> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 100.h),
+          padding: EdgeInsets.only(top: 40.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 "Time for Your Gifts! 🎀",
                 style: TextStyle(
-                  fontSize: 50.sp,
+                  fontSize: 28.sp,
                   fontFamily: "Chewy",
                   fontWeight: FontWeight.bold,
                   color: color.whiteColor,
@@ -70,26 +71,41 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBody> {
         ),
         Center(
           child: GestureDetector(
+            // onPanEnd: (details) {
+            //   print(
+            //     "_______________________onPanEnd__________________________",
+            //   );
+            //   setState(() {
+            //     selected.add(Fortune.randomInt(0, giveaway.length));
+            //   });
+            // },
             onTap: () {
               setState(() {
                 selected.add(Fortune.randomInt(0, giveaway.length));
               });
             },
             child: SizedBox(
-              width: 700.w,
-              height: 700.h,
+              width: 0.9.sw,
+              height: 0.9.sw,
               child: FortuneWheel(
                 selected: selected.stream,
                 animateFirst: false,
                 items: [
                   for (int i = 0; i < giveaway.length; i++)
                     FortuneItem(
-                      child: Text(
-                        giveaway[i],
-                        style: TextStyle(
-                          fontSize: 40.sp,
-                          fontFamily: "Chewy",
-                          fontWeight: FontWeight.bold,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          giveaway[i],
+                          style: TextStyle(
+                            fontSize: 28.sp,
+                            fontFamily: "Chewy",
+                            fontWeight: FontWeight.bold,
+                          ),
+                          softWrap: true, // 👈 يسمح بلفّ النص تلقائيًا
+                          overflow: TextOverflow
+                              .visible, // 👈 يخلي النص يظهر كله (مش مقطوع)
+                          textAlign: TextAlign.center,
                         ),
                       ),
                       style: FortuneItemStyle(
@@ -122,17 +138,15 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBody> {
                         alignment: Alignment.center,
                         children: [
                           Container(
-                            width: 1000.w,
-                            height: 1000.h,
+                            width: 1.sw,
+                            height: 1.sw,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(
-                                    0.4,
-                                  ), // لون الظل
-                                  blurRadius: 15, // نعومة الظل
-                                  offset: Offset(0, 8), // اتجاه الظل (تحت شوي)
+                                  color: Colors.black.withOpacity(0.4),
+                                  blurRadius: 15,
+                                  offset: Offset(0, 8),
                                 ),
                               ],
                             ),
@@ -149,33 +163,33 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBody> {
                             children: [
                               Image.asset(
                                 'assets/images/win.gif',
-                                width: 600.w,
-                                height: 400,
+                                width: 0.8.sw,
+                                height: 0.5.sw,
                                 fit: BoxFit.cover,
                               ),
                               SizedBox(height: 20.h),
                               Text(
                                 rewardValue,
                                 style: TextStyle(
-                                  fontSize: 70,
+                                  fontSize: 50,
                                   fontFamily: "Chewy",
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
-                              SizedBox(height: 60.h),
+                              SizedBox(height: 20.h),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: color.primary,
                                   padding: EdgeInsets.symmetric(
-                                    horizontal: 40,
-                                    vertical: 16,
+                                    horizontal: 20,
+                                    vertical: 3,
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
-                                  maximumSize: Size(600, 100),
-                                  minimumSize: Size(600, 100),
+                                  maximumSize: Size(400, 100),
+                                  minimumSize: Size(400, 100),
                                 ),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -185,7 +199,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBody> {
                                 child: Text(
                                   'Hope to see you again 👋🏻',
                                   style: TextStyle(
-                                    fontSize: 40.sp,
+                                    fontSize: 20.sp,
                                     fontFamily: "Chewy",
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,

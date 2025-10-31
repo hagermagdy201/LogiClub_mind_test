@@ -50,9 +50,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
         .collection('questions')
         .get();
 
-    final allQuestions = snapshot.docs
-        .map((e) => e.data() as Map<String, dynamic>)
-        .toList();
+    final allQuestions = snapshot.docs.map((e) => e.data()).toList();
 
     allQuestions.shuffle();
 
