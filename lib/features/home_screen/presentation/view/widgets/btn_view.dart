@@ -4,7 +4,17 @@ import 'package:logiclub/core/utils/classes/color.dart' as color;
 import 'package:logiclub/features/view_category_screen/presentation/view/view_category_screen.dart';
 
 class BtnView extends StatelessWidget {
-  const BtnView({super.key});
+  final int minsize;
+  final int maxsize;
+  final int fontsize;
+  final int paddingsize;
+  const BtnView({
+    super.key,
+    required this.minsize,
+    required this.maxsize,
+    required this.fontsize,
+    required this.paddingsize,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +31,14 @@ class BtnView extends StatelessWidget {
           side: BorderSide(color: color.secondary, width: 2.sp),
           borderRadius: BorderRadius.circular(10.sp),
         ),
-        padding: EdgeInsets.all(10.sp),
-        minimumSize: Size(200.w, 50.h),
-        maximumSize: Size(400.w, 90.h),
+        padding: EdgeInsets.all(paddingsize.sp),
+        minimumSize: Size(minsize.w, 20.h),
+        maximumSize: Size(maxsize.w, 90.h),
       ),
       child: Text(
         'Let’s Go',
         style: TextStyle(
-          fontSize: 22.sp,
+          fontSize: fontsize.sp,
           color: color.secondary,
           fontWeight: FontWeight.bold,
         ),

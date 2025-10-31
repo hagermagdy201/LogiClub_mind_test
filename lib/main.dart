@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:logiclub/features/home_screen/presentation/view/home_screen.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+// import 'package:flutter/foundation.dart';
+// import 'package:device_preview/device_preview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,15 +16,16 @@ void main() async {
     persistenceEnabled: true,
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
   );
-  runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (BuildContext context) {
-        WidgetsFlutterBinding.ensureInitialized();
-        return MyApp();
-      },
-    ),
-  );
+  //view for different device previews
+  // runApp(
+  //   DevicePreview(
+  //     enabled: !kReleaseMode,
+  //     builder: (BuildContext context) {
+  //       return MyApp();
+  //     },
+  //   ),
+  // );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

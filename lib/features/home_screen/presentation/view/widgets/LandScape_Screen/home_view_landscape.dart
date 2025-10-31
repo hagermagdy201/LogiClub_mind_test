@@ -11,50 +11,63 @@ class HomeViewLandscape extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        width: MediaQuery.of(context).size.width / 1.1,
-        height: MediaQuery.of(context).size.height / 1.4,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 255, 255, 255),
-          border: Border.all(
-            color: const Color.fromARGB(255, 255, 255, 255),
-            width: 2,
+      child: SingleChildScrollView(
+        child: Container(
+          width: 0.9.sw,
+          height: 0.8.sh,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.white, width: 2),
+            borderRadius: BorderRadius.circular(30.r),
           ),
-          borderRadius: BorderRadius.circular(30.sp),
-        ),
-        child: Row(
-          children: [
-            Positioned(
-              left: MediaQuery.of(context).size.width / 5.5,
-              child: Container(
-                margin: EdgeInsets.only(bottom: 3.h),
-                width: MediaQuery.of(context).size.width / 3,
-                child: Image.asset(AssetsPaths.logoLogiclub),
-              ),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TxtView(
-                    text: "Welcome!",
-                    fontSize: 55,
-                    weight: FontWeight.bold,
-                    color: color.primary,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 10.w),
+                  child: SizedBox(
+                    width: 0.4.sw,
+                    child: Image.asset(
+                      AssetsPaths.logoLogiclub,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                  TxtView(
-                    text: 'Let’s test your brain power! Ready?',
-                    fontSize: 40,
-                    weight: FontWeight.w500,
-                    color: color.primary,
+                ),
+                Container(
+                  width: 0.5.sw,
+                  padding: EdgeInsets.only(right: 10.w),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TxtView(
+                        text: "Welcome!",
+                        fontSize: 10.sp.toInt(),
+                        weight: FontWeight.bold,
+                        color: color.primary,
+                      ),
+                      SizedBox(height: 8.h),
+                      TxtView(
+                        text: 'Let’s test your brain power! Ready?',
+                        fontSize: 6.sp.toInt(),
+                        weight: FontWeight.w500,
+                        color: color.primary,
+                      ),
+                      SizedBox(height: 20.h),
+                      BtnView(
+                        fontsize: 11,
+                        maxsize: 150,
+                        minsize: 100,
+                        paddingsize: 4,
+                      ),
+                    ],
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height / 18),
-                  BtnView(),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

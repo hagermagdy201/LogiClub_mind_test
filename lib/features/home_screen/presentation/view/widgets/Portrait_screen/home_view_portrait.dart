@@ -11,81 +11,102 @@ class HomeViewPortrait extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width / 1,
-          height: MediaQuery.of(context).size.height / 1.7,
-          child: Stack(
-            children: [
-              Center(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 5,
-                  ),
-                  width: MediaQuery.of(context).size.width / 1.2,
-                  height: MediaQuery.of(context).size.height / 2,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      width: 2,
+    return Center(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(vertical: 30.h),
+        child: Column(
+          children: [
+            SizedBox(
+              width: 1.sw,
+              height: 0.7.sh,
+              child: Stack(
+                children: [
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 0.2.sh),
+                      width: 0.85.sw,
+                      height: 0.7.sh,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.white, width: 2),
+                        borderRadius: BorderRadius.circular(30.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 12,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TxtView(
+                              text: "Welcome!",
+                              fontSize: 28.sp.toInt(),
+                              weight: FontWeight.bold,
+                              color: color.primary,
+                            ),
+                            SizedBox(height: 15.h),
+                            TxtView(
+                              text: 'Let’s test your brain power! Ready?',
+                              fontSize: 12.sp.toInt(), // كان 40 → ضبطناه
+                              weight: FontWeight.w600,
+                              color: color.primary,
+                            ),
+                            SizedBox(height: 35.h),
+                            BtnView(
+                              fontsize: 22,
+                              maxsize: 200,
+                              minsize: 150,
+                              paddingsize: 4,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(30.sp),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      TxtView(
-                        text: "Welcome!",
-                        fontSize: 55,
-                        weight: FontWeight.bold,
-                        color: color.primary,
+                  Positioned(
+                    top: 0.04.sh,
+                    left: 0.17.sw,
+                    child: SizedBox(
+                      width: 0.65.sw,
+                      child: Image.asset(
+                        AssetsPaths.logoLogiclub,
+                        fit: BoxFit.contain,
                       ),
-                      TxtView(
-                        text: 'Let’s test your brain power! Ready?',
-                        fontSize: 40,
-                        weight: FontWeight.w500,
-                        color: color.primary,
-                      ),
-                      SizedBox(height: MediaQuery.of(context).size.height / 22),
-                      BtnView(),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-              Positioned(
-                left: MediaQuery.of(context).size.width / 5.5,
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 10.h),
-                  width: MediaQuery.of(context).size.width / 1.5,
-                  child: Image.asset(AssetsPaths.logoLogiclub),
-                ),
-              ),
-            ],
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AdminDashboardScreen()),
-            );
-          },
-          child: Text(
-            'Continue as Admin',
-            style: TextStyle(
-              decoration: TextDecoration.underline,
-              decorationColor: color.blackColor,
-              decorationThickness: 2,
-              fontSize: 25.sp,
-              color: color.blackColor,
             ),
-          ),
+            SizedBox(height: 3.h),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AdminDashboardScreen(),
+                  ),
+                );
+              },
+              child: Text(
+                'Continue as Admin',
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  decorationColor: color.blackColor,
+                  decorationThickness: 2,
+                  fontSize: 13.sp,
+                  color: color.blackColor,
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
