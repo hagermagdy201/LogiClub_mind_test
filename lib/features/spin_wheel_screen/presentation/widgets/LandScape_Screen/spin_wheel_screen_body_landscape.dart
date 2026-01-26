@@ -22,7 +22,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
   String rewardValue = "";
   late AudioPlayer player = AudioPlayer();
 
-  List<String> giveaway = ["20% vouchers", "Cap", "Sunshade"];
+  List<String> giveaway = ["20% vouchers", "Cap", "Sunshade", "Pen"];
 
   Future<void> playSuccessSound() async {
     String soundPath = AssetsSound.winningsound;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
+import 'package:logiclub/features/Admin_screen/presentation/view/Admin_dashboard_screen.dart';
 import 'package:logiclub/features/home_screen/presentation/view/widgets/btn_view.dart';
 import 'package:logiclub/features/home_screen/presentation/view/widgets/txt_view_home.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
@@ -61,6 +62,26 @@ class HomeViewLandscape extends StatelessWidget {
                         maxsize: 150,
                         minsize: 100,
                         paddingsize: 4,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AdminDashboardScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Continue as Admin',
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            decorationColor: color.blackColor,
+                            decorationThickness: 2,
+                            fontSize: 5.sp,
+                            color: color.blackColor,
+                          ),
+                        ),
                       ),
                     ],
                   ),

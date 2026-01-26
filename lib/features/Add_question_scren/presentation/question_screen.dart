@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
-import 'package:logiclub/features/Add_question_scren/presentation/widgets/question_screen_body.dart';
+import 'package:logiclub/features/Add_question_scren/presentation/widgets/LandScape_Screen/question_screen_body_landscape.dart';
+import 'package:logiclub/features/Add_question_scren/presentation/widgets/Portrait_screen/question_screen_body_portrait.dart';
 
 class QuestionScreen extends StatefulWidget {
   final dynamic categoryName;
@@ -16,15 +17,21 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreenState extends State<QuestionScreen> {
   @override
   Widget build(BuildContext context) {
+    final devicemediaorientation = MediaQuery.of(context).orientation;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white, size: 40.sp),
+        iconTheme: IconThemeData(
+          color: Colors.white,
+          size: devicemediaorientation == Orientation.portrait ? 15.sp : 10.sp,
+        ),
         backgroundColor: color.blackColor,
         title: Text(
           'AddQuestion',
           style: TextStyle(
-            fontSize: 30.sp,
+            fontSize: devicemediaorientation == Orientation.portrait
+                ? 15.sp
+                : 10.sp,
             color: color.whiteColor,
             fontWeight: FontWeight.bold,
           ),
@@ -39,7 +46,13 @@ class _QuestionScreenState extends State<QuestionScreen> {
               fit: BoxFit.fill,
             ),
           ),
-          child: QuestionScreenBody(categoryName: super.widget.categoryName),
+          child: devicemediaorientation == Orientation.portrait
+              ? QuestionScreenBodyPortrait(
+                  categoryName: super.widget.categoryName,
+                )
+              : QuestionScreenBodyLandscape(
+                  categoryName: super.widget.categoryName,
+                ),
         ),
       ),
     );

@@ -40,6 +40,7 @@ class Showdialogbox {
                 padding: EdgeInsets.only(left: 12.w, right: 12.w),
                 child: ElevatedButton(
                   onPressed: () {
+                    questionController.questionCategoryController.clear();
                     Navigator.pop(context);
                   },
                   child: Text("Cancel"),
