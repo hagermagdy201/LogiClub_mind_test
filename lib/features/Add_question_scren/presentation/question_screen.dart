@@ -37,23 +37,20 @@ class _QuestionScreenState extends State<QuestionScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(AssetsPaths.blackbackgroundImage),
-              fit: BoxFit.fill,
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(AssetsPaths.blackbackgroundImage),
+            fit: BoxFit.fill,
           ),
-          child: devicemediaorientation == Orientation.portrait
-              ? QuestionScreenBodyPortrait(
-                  categoryName: super.widget.categoryName,
-                )
-              : QuestionScreenBodyLandscape(
-                  categoryName: super.widget.categoryName,
-                ),
         ),
+        child: devicemediaorientation == Orientation.portrait
+            ? QuestionScreenBodyPortrait(
+                categoryName: super.widget.categoryName,
+              )
+            : QuestionScreenBodyLandscape(
+                categoryName: super.widget.categoryName,
+              ),
       ),
     );
   }

@@ -16,26 +16,43 @@ class QuestionScreenBodyPortrait extends StatefulWidget {
 
 class _QuestionScreenBodyState extends State<QuestionScreenBodyPortrait> {
   final keyGlobal = GlobalKey<FormState>();
+  late TextEditingController questionController;
+  late TextEditingController option1Controller;
+  late TextEditingController option2Controller;
+  late TextEditingController option3Controller;
+  late TextEditingController option4Controller;
+  late TextEditingController answerController;
+
+  @override
+  void initState() {
+    super.initState();
+    questionController = TextEditingController();
+    option1Controller = TextEditingController();
+    option2Controller = TextEditingController();
+    option3Controller = TextEditingController();
+    option4Controller = TextEditingController();
+    answerController = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController questionController = TextEditingController();
-    final TextEditingController option1Controller = TextEditingController();
-    final TextEditingController option2Controller = TextEditingController();
-    final TextEditingController option3Controller = TextEditingController();
-    final TextEditingController option4Controller = TextEditingController();
-    final TextEditingController answerController = TextEditingController();
-
-    return Container(
-      padding: EdgeInsets.all(60.0),
-      child: Form(
-        key: keyGlobal,
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.only(
+          top: 20.sp,
+          left: 16.sp,
+          right: 16.sp,
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Form(
+          key: keyGlobal,
           child: Column(
             children: [
               CustomTextFormField(
                 controller: questionController,
                 label: "Question",
-                maxLength: 300,
+                maxLength: 150,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your question';
@@ -47,7 +64,7 @@ class _QuestionScreenBodyState extends State<QuestionScreenBodyPortrait> {
               CustomTextFormField(
                 controller: option1Controller,
                 label: "option 1",
-                maxLength: 100,
+                maxLength: 50,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter option 1';
@@ -59,7 +76,7 @@ class _QuestionScreenBodyState extends State<QuestionScreenBodyPortrait> {
               CustomTextFormField(
                 controller: option2Controller,
                 label: "option 2",
-                maxLength: 100,
+                maxLength: 50,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter option 2';
@@ -71,7 +88,7 @@ class _QuestionScreenBodyState extends State<QuestionScreenBodyPortrait> {
               CustomTextFormField(
                 controller: option3Controller,
                 label: "option 3",
-                maxLength: 100,
+                maxLength: 50,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter option 3';
@@ -83,7 +100,7 @@ class _QuestionScreenBodyState extends State<QuestionScreenBodyPortrait> {
               CustomTextFormField(
                 controller: option4Controller,
                 label: "option 4",
-                maxLength: 100,
+                maxLength: 50,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter option 4';
@@ -134,18 +151,19 @@ class _QuestionScreenBodyState extends State<QuestionScreenBodyPortrait> {
                 style: FilledButton.styleFrom(
                   backgroundColor: color.primary,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.sp),
+                    borderRadius: BorderRadius.circular(13.sp),
                   ),
-                  minimumSize: Size(300.h, 60.h),
+                  minimumSize: Size(200.h, 50.h),
                 ),
                 child: Text(
                   'Add Question',
                   style: TextStyle(
-                    fontSize: 25.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+              SizedBox(height: 30.h),
             ],
           ),
         ),

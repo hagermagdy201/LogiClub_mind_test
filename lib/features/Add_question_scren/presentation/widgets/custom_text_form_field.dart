@@ -25,7 +25,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return TextFormField(
       style: TextStyle(
         color: Colors.white,
-        fontSize: 10.sp,
+        fontSize: 12.sp,
         fontWeight: FontWeight.bold,
       ),
       controller: widget.controller,
@@ -34,7 +34,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         label: Text(widget.label),
         labelStyle: TextStyle(
           color: Colors.white,
-          fontSize: 10.sp,
+          fontSize: 12.sp,
           fontWeight: FontWeight.bold,
         ),
         enabledBorder: OutlineInputBorder(
@@ -45,12 +45,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
         errorStyle: TextStyle(
           color: Colors.red,
-          fontSize: 10.sp,
+          fontSize: 12.sp,
           fontWeight: FontWeight.w700,
         ),
         counterStyle: TextStyle(
           color: Colors.white,
-          fontSize: 10.sp,
+          fontSize: 12.sp,
           fontWeight: FontWeight.bold,
         ),
         contentPadding: EdgeInsets.symmetric(vertical: 30, horizontal: 16),
