@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
@@ -22,7 +23,25 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyPortrait> {
   String rewardValue = "";
   late AudioPlayer player = AudioPlayer();
 
-  List<String> giveaway = ["20% vouchers", "Cap", "Sunshade"];
+  // List<String> giveaway = ["20% vouchers", "Cap", "Sunshade"];
+  Future<List<Map<String, dynamic>>> getAllGiveaways() async {
+    CollectionReference giveaways = FirebaseFirestore.instance.collection(
+      'Givaway',
+    );
+
+    QuerySnapshot snapshot = await giveaways.get();
+
+    List<Map<String, dynamic>> allGiveaways = snapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      data['id'] = doc.id;
+      return data;
+    }).toList();
+
+    return allGiveaways;
+  }
+
+  Future<List<Map<String, dynamic>>> get giveaway async =>
+      await getAllGiveaways();
 
   Future<void> playSuccessSound() async {
     String soundPath = AssetsSound.winningsound;
@@ -70,151 +89,160 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyPortrait> {
           ),
         ),
         Center(
-          child: GestureDetector(
-            // onPanEnd: (details) {
-            //   print(
-            //     "_______________________onPanEnd__________________________",
-            //   );
-            //   setState(() {
-            //     selected.add(Fortune.randomInt(0, giveaway.length));
-            //   });
-            // },
-            onTap: () {
-              setState(() {
-                selected.add(Fortune.randomInt(0, giveaway.length));
-              });
-            },
-            child: SizedBox(
-              width: 0.9.sw,
-              height: 0.9.sw,
-              child: FortuneWheel(
-                selected: selected.stream,
-                animateFirst: false,
-                items: [
-                  for (int i = 0; i < giveaway.length; i++)
-                    FortuneItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          giveaway[i],
-                          style: TextStyle(
-                            fontSize: 28.sp,
-                            fontFamily: "Chewy",
-                            fontWeight: FontWeight.bold,
+          child: FutureBuilder<List<Map<String, dynamic>>>(
+            future: getAllGiveaways(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Text('No giveaways available');
+              } else {
+                final giveaways = snapshot.data!;
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selected.add(Fortune.randomInt(0, giveaways.length));
+                    });
+                  },
+                  child: SizedBox(
+                    width: 0.9.sw,
+                    height: 0.9.sw,
+                    child: FortuneWheel(
+                      selected: selected.stream,
+                      animateFirst: false,
+                      items: [
+                        for (int i = 0; i < giveaways.length; i++)
+                          FortuneItem(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                giveaways[i]['name']?.toString() ?? '',
+                                style: TextStyle(
+                                  fontSize: 28.sp,
+                                  fontFamily: "Chewy",
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            style: FortuneItemStyle(
+                              color:
+                                  Color.lerp(
+                                    color.snpinwheelPrimaryColor,
+                                    color.snpinwheelSecondaryColor,
+                                    i / (giveaways.length - 0.9),
+                                  ) ??
+                                  Color(0xFF00C9FF),
+                              borderColor: color.whiteColor,
+                              borderWidth: 4,
+                              textStyle: TextStyle(color: color.whiteColor),
+                            ),
                           ),
-                          softWrap: true, // 👈 يسمح بلفّ النص تلقائيًا
-                          overflow: TextOverflow
-                              .visible, // 👈 يخلي النص يظهر كله (مش مقطوع)
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      style: FortuneItemStyle(
-                        color:
-                            Color.lerp(
-                              color.snpinwheelPrimaryColor,
-                              color.snpinwheelSecondaryColor,
-                              i / (giveaway.length - 0.9),
-                            ) ??
-                            Color(0xFF00C9FF),
-                        borderColor: color.whiteColor,
-                        borderWidth: 4,
-                        textStyle: TextStyle(color: color.whiteColor),
-                      ),
-                    ),
-                ],
-                onAnimationEnd: () {
-                  setState(() {
-                    rewardValue = giveaway[selected.value];
-                  });
-                  print("-----------------------$rewardValue");
-                  playSuccessSound();
+                      ],
+                      onAnimationEnd: () {
+                        setState(() {
+                          rewardValue =
+                              giveaways[selected.value]['name']?.toString() ??
+                              '';
+                        });
+                        print("-----------------------$rewardValue");
+                        playSuccessSound();
 
-                  showDialog(
-                    context: context,
-                    builder: (_) => Dialog(
-                      backgroundColor: Colors.transparent,
-                      insetPadding: EdgeInsets.all(16),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            width: 1.sw,
-                            height: 1.sw,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.4),
-                                  blurRadius: 15,
-                                  offset: Offset(0, 8),
+                        showDialog(
+                          context: context,
+                          builder: (_) => Dialog(
+                            backgroundColor: Colors.transparent,
+                            insetPadding: EdgeInsets.all(16),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  width: 1.sw,
+                                  height: 1.sw,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.4),
+                                        blurRadius: 15,
+                                        offset: Offset(0, 8),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(25),
+                                    child: Image.asset(
+                                      AssetsPaths.bluebackgroundImage,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/win.gif',
+                                      width: 0.8.sw,
+                                      height: 0.5.sw,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    SizedBox(height: 20.h),
+                                    Text(
+                                      rewardValue,
+                                      style: TextStyle(
+                                        fontSize: 50,
+                                        fontFamily: "Chewy",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(height: 20.h),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: color.primary,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                          vertical: 3,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                        ),
+                                        maximumSize: Size(400, 100),
+                                        minimumSize: Size(400, 100),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        'Hope to see you again 👋🏻',
+                                        style: TextStyle(
+                                          fontSize: 20.sp,
+                                          fontFamily: "Chewy",
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25),
-                              child: Image.asset(
-                                AssetsPaths.bluebackgroundImage,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
                           ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                'assets/images/win.gif',
-                                width: 0.8.sw,
-                                height: 0.5.sw,
-                                fit: BoxFit.cover,
-                              ),
-                              SizedBox(height: 20.h),
-                              Text(
-                                rewardValue,
-                                style: TextStyle(
-                                  fontSize: 50,
-                                  fontFamily: "Chewy",
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(height: 20.h),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: color.primary,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 3,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  maximumSize: Size(400, 100),
-                                  minimumSize: Size(400, 100),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  'Hope to see you again 👋🏻',
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontFamily: "Chewy",
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ),
+                  ),
+                );
+              }
+            },
           ),
         ),
       ],
