@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
 import 'package:logiclub/features/Admin_screen/presentation/view/Admin_dashboard_screen.dart';
+import 'package:logiclub/features/home_screen/presentation/view/widgets/LandScape_Screen/video_landscape.dart';
 import 'package:logiclub/features/home_screen/presentation/view/widgets/btn_view.dart';
 import 'package:logiclub/features/home_screen/presentation/view/widgets/txt_view_home.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
@@ -31,9 +32,21 @@ class HomeViewLandscape extends StatelessWidget {
                   padding: EdgeInsets.only(left: 10.w),
                   child: SizedBox(
                     width: 0.4.sw,
-                    child: Image.asset(
-                      AssetsPaths.logoLogiclub,
-                      fit: BoxFit.contain,
+                    child: GestureDetector(
+                      onTap: () {
+                        print("ooooooooooooooooo");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VideoLandscape(),
+                          ),
+                        );
+                        print("Logo Tapped");
+                      },
+                      child: Image.asset(
+                        AssetsPaths.logoLogiclub,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),

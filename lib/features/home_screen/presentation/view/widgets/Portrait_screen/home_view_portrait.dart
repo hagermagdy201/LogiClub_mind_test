@@ -2,12 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
 import 'package:logiclub/features/Admin_screen/presentation/view/Admin_dashboard_screen.dart';
+import 'package:logiclub/features/home_screen/presentation/view/widgets/Portrait_screen/video_potrait.dart';
 import 'package:logiclub/features/home_screen/presentation/view/widgets/btn_view.dart';
 import 'package:logiclub/features/home_screen/presentation/view/widgets/txt_view_home.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:video_player/video_player.dart';
 
-class HomeViewPortrait extends StatelessWidget {
+class HomeViewPortrait extends StatefulWidget {
   const HomeViewPortrait({super.key});
+
+  @override
+  State<HomeViewPortrait> createState() => _HomeViewPortraitState();
+}
+
+class _HomeViewPortraitState extends State<HomeViewPortrait> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +94,20 @@ class HomeViewPortrait extends StatelessWidget {
                     left: 0.17.sw,
                     child: SizedBox(
                       width: 0.65.sw,
-                      child: Image.asset(
-                        AssetsPaths.logoLogiclub,
-                        fit: BoxFit.contain,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VideoPotrait(),
+                            ),
+                          );
+                          print("Logo Tapped");
+                        },
+                        child: Image.asset(
+                          AssetsPaths.logoLogiclub,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
