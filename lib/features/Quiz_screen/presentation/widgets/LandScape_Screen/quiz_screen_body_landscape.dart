@@ -54,8 +54,8 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
 
     allQuestions.shuffle();
 
-    final randomTen = allQuestions.length > 10
-        ? allQuestions.take(10).toList()
+    final randomTen = allQuestions.length > 5
+        ? allQuestions.take(5).toList()
         : allQuestions;
 
     return randomTen;
