@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logiclub/core/utils/classes/color.dart' as color;
 import 'package:video_player/video_player.dart';
 
 class VideoLandscape extends StatefulWidget {
@@ -10,6 +11,7 @@ class VideoLandscape extends StatefulWidget {
 
 class _VideoLandscapeState extends State<VideoLandscape> {
   late VideoPlayerController _controller;
+  bool isLooping = false;
 
   @override
   void initState() {
@@ -47,17 +49,43 @@ class _VideoLandscapeState extends State<VideoLandscape> {
               )
             : const CircularProgressIndicator(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play();
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
+
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            backgroundColor: color.primary,
+            heroTag: "loop",
+            onPressed: () {
+              setState(() {
+                isLooping = !isLooping;
+                _controller.setLooping(isLooping);
+              });
+            },
+            child: Icon(
+              isLooping ? Icons.repeat : Icons.repeat,
+              color: color.whiteColor,
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          FloatingActionButton(
+            backgroundColor: color.primary,
+            heroTag: "play_pause",
+            onPressed: () {
+              setState(() {
+                _controller.value.isPlaying
+                    ? _controller.pause()
+                    : _controller.play();
+              });
+            },
+            child: Icon(
+              _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              color: color.whiteColor,
+            ),
+          ),
+        ],
       ),
     );
   }

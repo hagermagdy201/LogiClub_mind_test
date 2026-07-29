@@ -108,8 +108,8 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
                       });
                     },
                     child: SizedBox(
-                      width: 0.42.sw,
-                      height: 0.42.sw,
+                      width: 0.45.sw,
+                      height: 0.45.sw,
                       child: FortuneWheel(
                         selected: selected.stream,
                         animateFirst: false,
@@ -117,13 +117,18 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
                           for (int i = 0; i < giveaways.length; i++)
                             FortuneItem(
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.only(
+                                  left: 26.0,
+                                  right: 26.0,
+                                  top: 18.0,
+                                  bottom: 18.0,
+                                ),
                                 child: Text(
                                   giveaways[i]['name']?.toString() ?? '',
                                   style: TextStyle(
-                                    fontSize: 15.sp,
+                                    fontSize: 10.sp,
                                     fontFamily: "Chewy",
-                                    fontWeight: FontWeight.bold,
+                                    // fontWeight: FontWeight.bold,
                                   ),
                                   softWrap: true,
                                   overflow: TextOverflow.visible,
@@ -195,7 +200,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
                                       Text(
                                         rewardValue,
                                         style: TextStyle(
-                                          fontSize: 50,
+                                          fontSize: 20.sp,
                                           fontFamily: "Chewy",
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,

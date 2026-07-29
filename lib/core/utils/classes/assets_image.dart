@@ -18,4 +18,5 @@ class AssetsPaths {
   static String sad5 = "assets/images/sad5.jpeg";
   static String sad6 = "assets/images/sad6.jpeg";
   static String sad7 = "assets/images/sad7.jpeg";
+  static String hayahLogo = "assets/images/Hayah_page_1.png";
 }

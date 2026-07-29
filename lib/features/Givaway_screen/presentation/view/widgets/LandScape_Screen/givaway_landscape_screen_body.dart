@@ -50,7 +50,7 @@ class _GivawayScreenBodyLandscapeState
                 fontWeight: FontWeight.bold,
               ),
               controller: givawayController,
-              maxLength: 15,
+              maxLength: 25,
               decoration: InputDecoration(
                 hintText: "Givaway Name",
                 hintStyle: TextStyle(
