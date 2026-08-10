@@ -70,7 +70,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyPortrtait> {
           height: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(AssetsPaths.bluebackgroundImage),
+              image: AssetImage(AssetsPaths.blackbackgroundImage),
               fit: BoxFit.fill,
             ),
           ),
@@ -154,7 +154,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyPortrtait> {
                                 ),
                                 fit: BoxFit.cover,
                                 colorFilter: ColorFilter.mode(
-                                  Colors.white.withOpacity(0.2),
+                                  Colors.white.withValues(alpha: 0.2),
                                   BlendMode.srcOver,
                                 ),
                               ),
@@ -243,7 +243,9 @@ class _QuizScreenBodyState extends State<QuizScreenBodyPortrtait> {
                                                             46,
                                                             45,
                                                             45,
-                                                          ).withOpacity(0.3),
+                                                          ).withValues(
+                                                            alpha: 0.3,
+                                                          ),
                                                     ),
                                                   ),
                                                 ),
@@ -329,7 +331,9 @@ class _QuizScreenBodyState extends State<QuizScreenBodyPortrtait> {
                                                             46,
                                                             45,
                                                             45,
-                                                          ).withOpacity(0.3),
+                                                          ).withValues(
+                                                            alpha: 0.3,
+                                                          ),
                                                     ),
                                                   ),
                                                 ),

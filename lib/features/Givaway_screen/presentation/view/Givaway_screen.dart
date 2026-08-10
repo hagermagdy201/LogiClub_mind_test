@@ -19,6 +19,7 @@ class _GivawayScreenState extends State<GivawayScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        toolbarHeight: 20.sp,
         iconTheme: IconThemeData(
           color: Colors.white,
           size: devicemediaorientation == Orientation.portrait ? 15.sp : 10.sp,

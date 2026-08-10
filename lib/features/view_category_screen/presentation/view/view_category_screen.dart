@@ -12,13 +12,17 @@ class ViewCategoryScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: 80,
-        iconTheme: IconThemeData(color: Colors.white, size: 20.sp),
+        toolbarHeight: 110,
+        iconTheme: IconThemeData(
+          color: color.whiteColor,
+          size: 16.sp,
+          weight: 900,
+        ),
         title: Text(
           "Choose your category and let’s go",
           style: TextStyle(
             color: color.whiteColor,
-            fontSize: 22.sp,
+            fontSize: 18.sp,
             fontWeight: FontWeight.bold,
             fontFamily: "Chewy",
           ),
@@ -34,6 +38,7 @@ class ViewCategoryScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
+        padding: EdgeInsets.only(top: 5.sp),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(AssetsPaths.whitebackgroundImage),

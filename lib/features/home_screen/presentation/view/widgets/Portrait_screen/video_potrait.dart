@@ -39,7 +39,7 @@ class _VideoPotraitState extends State<VideoPotrait> {
       backgroundColor: Color(0xFFF0F0F0),
       body: Center(
         child: _controller.value.isInitialized
-            ? Container(
+            ? SizedBox(
                 width: double.infinity,
                 height: double.infinity,
                 child: VideoPlayer(_controller),

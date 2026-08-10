@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
 import 'package:logiclub/features/Add_question_scren/presentation/question_screen.dart';
+import 'package:logiclub/features/Add_question_scren/presentation/widgets/LandScape_Screen/app_dialog.dart';
 import 'package:logiclub/features/Admin_screen/presentation/view/widgets/snackbar.dart';
 
 class AdminDashboardScreenBodyLandscape extends StatefulWidget {
@@ -50,10 +51,10 @@ class _AdminDashboardScreenBodyState
                   final categoryId = docs[index].id;
                   return Container(
                     margin: EdgeInsets.symmetric(
-                      vertical: 10.w,
+                      vertical: 5.w,
                       horizontal: 10.w,
                     ),
-                    padding: EdgeInsets.all(8.sp),
+                    padding: EdgeInsets.all(5.sp),
                     decoration: BoxDecoration(
                       color: Colors.black54,
                       borderRadius: BorderRadius.circular(10.w),
@@ -62,7 +63,7 @@ class _AdminDashboardScreenBodyState
                       title: Text(
                         docs[index]['name'],
                         style: TextStyle(
-                          fontSize: 15.sp,
+                          fontSize: 10.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
@@ -79,7 +80,7 @@ class _AdminDashboardScreenBodyState
                           return Text(
                             "Num of Questions: $count",
                             style: TextStyle(
-                              fontSize: 10.sp,
+                              fontSize: 8.sp,
                               color: Colors.white70,
                             ),
                           );
@@ -88,7 +89,7 @@ class _AdminDashboardScreenBodyState
                       trailing: PopupMenuButton<int>(
                         icon: Icon(Icons.more_vert, color: color.whiteColor),
                         color: const Color.fromARGB(255, 255, 255, 255),
-                        iconSize: 15.sp,
+                        iconSize: 10.sp,
                         onSelected: (value) async {
                           switch (value) {
                             case 1:
@@ -105,6 +106,7 @@ class _AdminDashboardScreenBodyState
                               break;
                             case 2:
                               // Navigate to Question Bank Screen
+
                               break;
                             case 3:
                               await FirebaseFirestore.instance
@@ -127,7 +129,8 @@ class _AdminDashboardScreenBodyState
                               'Add Question',
                               style: TextStyle(
                                 color: color.blackColor,
-                                fontSize: 10.sp,
+                                fontSize: 6.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -137,7 +140,8 @@ class _AdminDashboardScreenBodyState
                               'Question Bank',
                               style: TextStyle(
                                 color: color.blackColor,
-                                fontSize: 10.sp,
+                                fontSize: 6.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -147,7 +151,8 @@ class _AdminDashboardScreenBodyState
                               'Delete Quiz',
                               style: TextStyle(
                                 color: color.blackColor,
-                                fontSize: 10.sp,
+                                fontSize: 6.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),

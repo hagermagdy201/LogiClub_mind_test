@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
 import 'package:logiclub/features/Quiz_screen/presentation/quiz_screen.dart';
 import 'package:logiclub/features/view_category_screen/presentation/view/widgets/card.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ViewCategoryScreenBody extends StatefulWidget {
   const ViewCategoryScreenBody({super.key});
@@ -27,7 +28,9 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(
+                  child: SpinKitFadingCube(color: color.whiteColor, size: 50.0),
+                );
               }
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                 return Center(
@@ -43,7 +46,7 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
 
               return GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount: 3,
                 ),
                 itemCount: docs.length,
                 itemBuilder: (context, index) {
@@ -69,7 +72,14 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
                           .collection('questions')
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) return Text("Loading...");
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: SpinKitThreeBounce(
+                              color: color.whiteColor,
+                              size: 30.0,
+                            ),
+                          );
+                        }
                         final count = snapshot.data!.docs.length;
                         return CategoryCard(
                           title: categoryName,

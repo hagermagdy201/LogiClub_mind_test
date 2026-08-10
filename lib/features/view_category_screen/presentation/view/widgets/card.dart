@@ -20,8 +20,8 @@ class CategoryCard extends StatelessWidget {
         color: bgColor,
         borderRadius: BorderRadius.circular(20.w),
       ),
-      padding: EdgeInsets.all(5.w),
-      margin: EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(7.w),
+      margin: EdgeInsets.all(8.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -36,7 +36,7 @@ class CategoryCard extends StatelessWidget {
                   overflow: TextOverflow.visible,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18.sp,
+                    fontSize: 12.sp,
                     fontFamily: "Chewy",
                     color: Colors.white,
                   ),
@@ -48,7 +48,7 @@ class CategoryCard extends StatelessWidget {
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 15.sp,
+                    fontSize: 11.sp,
                     color: Colors.white70,
                     fontFamily: "Chewy",
                   ),

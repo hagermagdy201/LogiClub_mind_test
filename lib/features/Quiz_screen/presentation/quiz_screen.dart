@@ -14,19 +14,11 @@ class QuizScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: 80,
-        iconTheme: IconThemeData(color: Colors.white, size: 18.sp),
-        title: Text(
-          "Quiz",
-          style: TextStyle(
-            color: color.whiteColor,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-            fontFamily: "Chewy",
-          ),
-          // maxLines: 4,sr
-          // overflow: TextOverflow.visible, // عشان ما يقطعش النص
-          // textAlign: TextAlign.center,
+        toolbarHeight: 100,
+        iconTheme: IconThemeData(
+          color: color.whiteColor,
+          size: 16.sp,
+          weight: 900,
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,

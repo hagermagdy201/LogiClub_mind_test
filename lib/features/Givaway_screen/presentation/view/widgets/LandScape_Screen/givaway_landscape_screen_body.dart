@@ -98,11 +98,11 @@ class _GivawayScreenBodyLandscapeState
               style: FilledButton.styleFrom(
                 backgroundColor: color.primary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.sp),
+                  borderRadius: BorderRadius.circular(6.sp),
                 ),
                 minimumSize: Size(90.w, 50.h),
               ),
-              child: Text('Add Givaway', style: TextStyle(fontSize: 10.sp)),
+              child: Text('Add Givaway', style: TextStyle(fontSize: 9.sp)),
             ),
 
             Container(

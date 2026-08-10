@@ -2,11 +2,13 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
 import 'package:logiclub/core/utils/classes/assets_sound.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'dart:async';
 import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/features/view_category_screen/presentation/view/view_category_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SpinWheelScreenBodyLandscape extends StatefulWidget {
@@ -22,7 +24,16 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
   String rewardValue = "";
   late AudioPlayer player = AudioPlayer();
 
-  // List<String> giveaway = ["20% vouchers", "Cap", "Sunshade"];
+  // متغير لحفظ الـ Future مرة واحدة فقط منعاً للـ Loading المكرر
+  late Future<List<Map<String, dynamic>>> giveawaysFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    // جلب الهدايا مرة واحدة عند فتح الشاشة
+    giveawaysFuture = getAllGiveaways();
+  }
+
   Future<List<Map<String, dynamic>>> getAllGiveaways() async {
     CollectionReference giveaways = FirebaseFirestore.instance.collection(
       'Givaway',
@@ -39,13 +50,10 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
     return allGiveaways;
   }
 
-  Future<List<Map<String, dynamic>>> get giveaway async =>
-      await getAllGiveaways();
-
   Future<void> playSuccessSound() async {
     String soundPath = AssetsSound.winningsound;
     await player.play(AssetSource(soundPath));
-    Future.delayed(Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 4), () {
       player.stop();
     });
   }
@@ -53,6 +61,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
   @override
   void dispose() {
     selected.close();
+    player.dispose();
     super.dispose();
   }
 
@@ -78,7 +87,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
               Text(
                 "Time for Your Gifts! 🎀",
                 style: TextStyle(
-                  fontSize: 20.sp,
+                  fontSize: 18.sp,
                   fontFamily: "Chewy",
                   fontWeight: FontWeight.bold,
                   color: color.whiteColor,
@@ -91,25 +100,34 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
           child: Padding(
             padding: const EdgeInsets.only(top: 50.0),
             child: FutureBuilder<List<Map<String, dynamic>>>(
-              future: getAllGiveaways(),
+              future: giveawaysFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const Center(
+                    child: SpinKitSpinningLines(
+                      color: Colors.white, // أو أي لون يتماشى مع خلفية التطبيق
+                      size: 50.0,
+                    ),
+                  );
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return Text(
+                    'Error: ${snapshot.error}',
+                    style: const TextStyle(color: Colors.white),
+                  );
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Text('No giveaways available');
+                  return const Text(
+                    'No giveaways available',
+                    style: TextStyle(color: Colors.white),
+                  );
                 } else {
                   final giveaways = snapshot.data!;
                   return GestureDetector(
                     onTap: () {
-                      setState(() {
-                        selected.add(Fortune.randomInt(0, giveaways.length));
-                      });
+                      selected.add(Fortune.randomInt(0, giveaways.length));
                     },
                     child: SizedBox(
-                      width: 0.45.sw,
-                      height: 0.45.sw,
+                      width: 0.4.sw,
+                      height: 0.4.sw,
                       child: FortuneWheel(
                         selected: selected.stream,
                         animateFirst: false,
@@ -126,9 +144,8 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
                                 child: Text(
                                   giveaways[i]['name']?.toString() ?? '',
                                   style: TextStyle(
-                                    fontSize: 10.sp,
+                                    fontSize: 13.sp,
                                     fontFamily: "Chewy",
-                                    // fontWeight: FontWeight.bold,
                                   ),
                                   softWrap: true,
                                   overflow: TextOverflow.visible,
@@ -142,7 +159,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
                                       color.snpinwheelSecondaryColor,
                                       i / (giveaways.length - 0.9),
                                     ) ??
-                                    Color(0xFF00C9FF),
+                                    const Color(0xFF00C9FF),
                                 borderColor: color.whiteColor,
                                 borderWidth: 4,
                                 textStyle: TextStyle(color: color.whiteColor),
@@ -155,14 +172,13 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
                                 giveaways[selected.value]['name']?.toString() ??
                                 '';
                           });
-                          print("-----------------------$rewardValue");
                           playSuccessSound();
 
                           showDialog(
                             context: context,
                             builder: (_) => Dialog(
                               backgroundColor: Colors.transparent,
-                              insetPadding: EdgeInsets.all(16),
+                              insetPadding: const EdgeInsets.all(16),
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: [
@@ -173,9 +189,11 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
                                       borderRadius: BorderRadius.circular(25),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.4),
+                                          color: Colors.black.withValues(
+                                            alpha: 0.4,
+                                          ),
                                           blurRadius: 15,
-                                          offset: Offset(0, 8),
+                                          offset: const Offset(0, 8),
                                         ),
                                       ],
                                     ),
@@ -210,7 +228,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
                                       ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: color.primary,
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                             horizontal: 5,
                                             vertical: 5,
                                           ),
@@ -219,18 +237,25 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyLandscape> {
                                               16,
                                             ),
                                           ),
-                                          maximumSize: Size(450, 100),
-                                          minimumSize: Size(450, 100),
+                                          maximumSize: const Size(450, 100),
+                                          minimumSize: const Size(450, 100),
                                         ),
                                         onPressed: () {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
+                                          Navigator.of(
+                                            context,
+                                          ).pushAndRemoveUntil(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const ViewCategoryScreen(),
+                                            ),
+                                            (route) => route
+                                                .isFirst, // يحذف الشاشات الوسيطة ويبقي على الشاشة الأولى فقط
+                                          );
                                         },
                                         child: Text(
                                           'Hope to see you again 👋🏻',
                                           style: TextStyle(
-                                            fontSize: 15.sp,
+                                            fontSize: 9.sp,
                                             fontFamily: "Chewy",
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,

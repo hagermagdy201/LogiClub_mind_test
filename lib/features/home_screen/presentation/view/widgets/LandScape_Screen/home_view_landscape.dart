@@ -58,14 +58,14 @@ class HomeViewLandscape extends StatelessWidget {
                     children: [
                       TxtView(
                         text: "Welcome!",
-                        fontSize: 10.sp.toInt(),
+                        fontSize: 7.sp.toInt(),
                         weight: FontWeight.bold,
                         color: color.primary,
                       ),
                       SizedBox(height: 8.h),
                       TxtView(
                         text: 'Let’s test your brain power! Ready?',
-                        fontSize: 6.sp.toInt(),
+                        fontSize: 3.sp.toInt(),
                         weight: FontWeight.w500,
                         color: color.primary,
                       ),
@@ -76,6 +76,7 @@ class HomeViewLandscape extends StatelessWidget {
                         minsize: 100,
                         paddingsize: 4,
                       ),
+                      SizedBox(height: 10.h),
                       TextButton(
                         onPressed: () {
                           Navigator.push(

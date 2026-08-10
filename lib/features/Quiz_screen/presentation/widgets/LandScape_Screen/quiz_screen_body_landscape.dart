@@ -23,6 +23,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
   late Future<List<Map<String, dynamic>>> questionsFuture;
 
   int shownCount = 0;
+  bool isProcessing = false;
 
   @override
   void initState() {
@@ -94,7 +95,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
                         "No questions found for this category '-'",
                         style: TextStyle(
                           color: color.whiteColor,
-                          fontSize: 20.sp,
+                          fontSize: 15.sp,
                           fontFamily: "Chewy",
                         ),
                         textAlign: TextAlign.center,
@@ -124,14 +125,14 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
                     Container(
                       width: 0.45.sw,
                       height: 0.43.sw,
-                      padding: EdgeInsets.all(10.w),
+                      padding: EdgeInsets.all(15.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.r),
                         image: DecorationImage(
                           image: AssetImage(AssetsPaths.orangebackgroundImage),
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
-                            Colors.white.withOpacity(0.2),
+                            Colors.white.withValues(alpha: 0.2),
                             BlendMode.srcOver,
                           ),
                         ),
@@ -141,7 +142,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
                         questionData['question'] ?? 'No question text',
                         style: TextStyle(
                           color: color.whiteColor,
-                          fontSize: 18.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.bold,
                           fontFamily: "Chewy",
                         ),
@@ -163,12 +164,13 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
 
                               final isSelected = selectedIndex == optionIndex;
 
+                              // تحديد لون الزر بناءً على اختيار المستخدم
                               Color btnColor = color.cardColor;
                               if (isSelected) {
-                                if ((optionIndex) == correctAnswer) {
-                                  btnColor = Colors.green;
+                                if (optionIndex == correctAnswer) {
+                                  btnColor = Colors.green; // اختيار صح
                                 } else {
-                                  btnColor = Colors.red;
+                                  btnColor = Colors.red; // اختيار غلط
                                 }
                               }
 
@@ -181,6 +183,8 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
+                                      // تم إيقاف تغيير اللون التلقائي عند التعطيل disabledBackgroundColor
+                                      disabledBackgroundColor: btnColor,
                                       backgroundColor: btnColor,
                                       padding: EdgeInsets.symmetric(
                                         vertical: 8.h,
@@ -191,209 +195,148 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
                                         ),
                                       ),
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        selectedIndex = optionIndex;
-                                        correctAnswerIndex = correctAnswer;
-                                      });
-                                      if ((optionIndex) == correctAnswer) {
-                                        Future.delayed(Duration(seconds: 1), () {
-                                          print("Correct Answer ✅");
-                                          _increaseShownQuestions();
+                                    onPressed: isProcessing
+                                        ? null
+                                        : () {
+                                            setState(() {
+                                              isProcessing = true;
+                                              selectedIndex = optionIndex;
+                                              correctAnswerIndex =
+                                                  correctAnswer;
+                                            });
 
-                                          // GIF
-                                          showDialog(
-                                            // ignore: use_build_context_synchronously
-                                            context: context,
-                                            builder: (_) => Dialog(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              insetPadding: EdgeInsets.all(16),
-                                              child: Stack(
-                                                alignment: Alignment.center,
-                                                children: [
-                                                  BackdropFilter(
-                                                    filter: ImageFilter.blur(
-                                                      sigmaX: 10,
-                                                      sigmaY: 10,
-                                                    ),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              20,
-                                                            ),
-                                                        color:
-                                                            const Color.fromARGB(
-                                                              255,
-                                                              46,
-                                                              45,
-                                                              45,
-                                                            ).withOpacity(0.3),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
+                                            final bool isCorrect =
+                                                (optionIndex == correctAnswer);
+
+                                            Future.delayed(const Duration(seconds: 1), () {
+                                              _increaseShownQuestions();
+
+                                              // GIF Dialog
+                                              showDialog(
+                                                context: context,
+                                                builder: (_) => Dialog(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  insetPadding:
+                                                      const EdgeInsets.all(16),
+                                                  child: Stack(
+                                                    alignment: Alignment.center,
                                                     children: [
-                                                      Image.asset(
-                                                        QuizHelpers()
-                                                            .getRandomHappyImage(),
-                                                        width: 150.w,
-                                                        height: 150.w,
-                                                        fit: BoxFit.contain,
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Text(
-                                                        QuizHelpers()
-                                                            .getRandomSuccessfulWord(),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          fontSize: 10.sp,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.white,
-                                                          height: 1,
+                                                      BackdropFilter(
+                                                        filter:
+                                                            ImageFilter.blur(
+                                                              sigmaX: 10,
+                                                              sigmaY: 10,
+                                                            ),
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                  20,
+                                                                ),
+                                                            color:
+                                                                const Color.fromARGB(
+                                                                  255,
+                                                                  46,
+                                                                  45,
+                                                                  45,
+                                                                ).withValues(
+                                                                  alpha: 0.3,
+                                                                ),
+                                                          ),
                                                         ),
+                                                      ),
+                                                      Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Image.asset(
+                                                            isCorrect
+                                                                ? QuizHelpers()
+                                                                      .getRandomHappyImage()
+                                                                : QuizHelpers()
+                                                                      .getRandomSadImage(),
+                                                            width: 150.w,
+                                                            height: 150.w,
+                                                            fit: BoxFit.contain,
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Text(
+                                                            isCorrect
+                                                                ? QuizHelpers()
+                                                                      .getRandomSuccessfulWord()
+                                                                : QuizHelpers()
+                                                                      .getRandomMotivationalWord(),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              fontSize: 10.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.white,
+                                                              height: isCorrect
+                                                                  ? 1
+                                                                  : 1.3,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ],
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                          QuizHelpers()
-                                              .playRandomSuccessSound();
-                                          Future.delayed(
-                                            Duration(seconds: 2),
-                                            () {
-                                              Navigator.of(context).pop();
-                                              setState(() {
-                                                if (shownCount ==
-                                                    totalQuestions) {
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SpinWheelScreen(),
-                                                    ),
-                                                  );
-                                                } else {
-                                                  selectedIndex = null;
-                                                  correctAnswerIndex = null;
-                                                  currentIndex++;
-                                                }
-                                              });
-                                            },
-                                          );
-                                        });
-                                      } else {
-                                        Future.delayed(Duration(seconds: 1), () {
-                                          print("wrong Answer ❌");
-                                          _increaseShownQuestions();
+                                                ),
+                                              );
 
-                                          // GIF
-                                          showDialog(
-                                            context: context,
-                                            builder: (_) => Dialog(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              insetPadding: EdgeInsets.all(16),
-                                              child: Stack(
-                                                alignment: Alignment.center,
-                                                children: [
-                                                  BackdropFilter(
-                                                    filter: ImageFilter.blur(
-                                                      sigmaX: 10,
-                                                      sigmaY: 10,
-                                                    ),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              20,
-                                                            ),
-                                                        color:
-                                                            const Color.fromARGB(
-                                                              255,
-                                                              46,
-                                                              45,
-                                                              45,
-                                                            ).withOpacity(0.3),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Image.asset(
-                                                        QuizHelpers()
-                                                            .getRandomSadImage(),
-                                                        width: 150.w,
-                                                        height: 150.w,
-                                                        fit: BoxFit.contain,
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Text(
-                                                        QuizHelpers()
-                                                            .getRandomMotivationalWord(),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          fontSize: 10.sp,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.white,
-                                                          height: 1.3,
+                                              if (isCorrect) {
+                                                QuizHelpers()
+                                                    .playRandomSuccessSound();
+                                              } else {
+                                                QuizHelpers()
+                                                    .PlayRandamFailSound();
+                                              }
+
+                                              Future.delayed(
+                                                const Duration(seconds: 2),
+                                                () {
+                                                  if (!mounted) return;
+                                                  Navigator.of(context).pop();
+                                                  setState(() {
+                                                    if (shownCount ==
+                                                        totalQuestions) {
+                                                      Navigator.of(
+                                                        context,
+                                                      ).push(
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const SpinWheelScreen(),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                          QuizHelpers().PlayRandamFailSound();
-                                          Future.delayed(
-                                            Duration(seconds: 2),
-                                            () {
-                                              Navigator.of(context).pop();
-                                              setState(() {
-                                                if (shownCount ==
-                                                    totalQuestions) {
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SpinWheelScreen(),
-                                                    ),
-                                                  );
-                                                } else {
-                                                  selectedIndex = null;
-                                                  correctAnswerIndex = null;
-                                                  currentIndex++;
-                                                }
-                                              });
-                                            },
-                                          );
-                                        });
-                                      }
-                                    },
+                                                      );
+                                                    } else {
+                                                      selectedIndex = null;
+                                                      correctAnswerIndex = null;
+                                                      currentIndex++;
+                                                      isProcessing = false;
+                                                    }
+                                                  });
+                                                },
+                                              );
+                                            });
+                                          },
                                     child: Padding(
                                       padding: EdgeInsets.only(
-                                        left: 2.h,
-                                        right: 2.h,
+                                        left: 20.h,
+                                        right: 20.h,
+                                        bottom: 6.h,
+                                        top: 6.h,
                                       ),
                                       child: Text(
                                         optionText,
                                         style: TextStyle(
                                           color: color.whiteColor,
-                                          fontSize: 16.sp,
+                                          fontSize: 14.sp,
                                           fontFamily: "Chewy",
                                         ),
                                         textAlign: TextAlign.center,
