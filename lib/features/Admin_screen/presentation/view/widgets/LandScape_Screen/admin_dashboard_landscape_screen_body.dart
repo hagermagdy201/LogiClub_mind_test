@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Add_question_scren/presentation/question_screen.dart';
 import 'package:logiclub/features/Admin_screen/presentation/view/widgets/snackbar.dart';
+import 'package:logiclub/features/question_bank_screen/presentation/question_bank_screen.dart';
+import 'package:logiclub/features/question_bank_screen/presentation/widgets/LandScape_Screen/question_bank_screen_body_landscape.dart';
 
 class AdminDashboardScreenBodyLandscape extends StatefulWidget {
   const AdminDashboardScreenBodyLandscape({super.key});
@@ -110,7 +112,15 @@ class _AdminDashboardScreenBodyState
                               );
                               break;
                             case 2:
-                              // Navigate to Question Bank Screen
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionBank(
+                                    categoryId: categoryId,
+                                    categoryName: categoryName,
+                                  ),
+                                ),
+                              );
                               break;
                             case 3:
                               await FirebaseFirestore.instance
