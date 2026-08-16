@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Add_question_scren/presentation/question_screen.dart';
 import 'package:logiclub/features/Admin_screen/presentation/view/widgets/snackbar.dart';
 
@@ -35,7 +35,7 @@ class _AdminDashboardScreenBodyState
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.sp,
-                      color: color.whiteColor,
+                      color: color.fontcolor,
                     ),
                   ),
                 );
@@ -86,8 +86,8 @@ class _AdminDashboardScreenBodyState
                         },
                       ),
                       trailing: PopupMenuButton<int>(
-                        icon: Icon(Icons.more_vert, color: color.whiteColor),
-                        color: color.whiteColor,
+                        icon: Icon(Icons.more_vert, color: color.fontcolor),
+                        color: color.fontcolor,
                         iconSize: 15.sp,
                         onSelected: (value) async {
                           switch (value) {

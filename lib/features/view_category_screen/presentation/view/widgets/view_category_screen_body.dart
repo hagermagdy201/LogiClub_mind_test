@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Quiz_screen/presentation/quiz_screen.dart';
 import 'package:logiclub/features/view_category_screen/presentation/view/widgets/card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -28,8 +28,8 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: SpinKitFadingCube(color: color.whiteColor, size: 50.0),
+                return Center(
+                  child: SpinKitFadingCube(color: color.fontcolor, size: 50.0),
                 );
               }
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -37,7 +37,7 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
                   child: CategoryCard(
                     title: "No categories found   '-'",
                     numofQue: '0',
-                    bgColor: color.cardColor,
+                    bgColor: color.fontcolor,
                   ),
                 );
               }
@@ -73,9 +73,9 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return const Center(
+                          return Center(
                             child: SpinKitThreeBounce(
-                              color: color.whiteColor,
+                              color: color.fontcolor,
                               size: 30.0,
                             ),
                           );
@@ -84,7 +84,7 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
                         return CategoryCard(
                           title: categoryName,
                           numofQue: count.toString(),
-                          bgColor: color.cardColor,
+                          bgColor: color.cardcolor,
                         );
                       },
                     ),

@@ -1,14 +1,11 @@
-import 'dart:ui' as html;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Admin_screen/presentation/view/widgets/LandScape_Screen/admin_dashboard_landscape_screen_body.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
 import 'package:logiclub/features/Admin_screen/presentation/view/widgets/Portrait_screen/admin_dashboard_portrait_screen_body.dart';
 import 'package:logiclub/features/Admin_screen/presentation/view/widgets/showdialogbox.dart';
-import 'package:logiclub/features/Givaway_screen/presentation/view/Givaway_screen.dart';
-import 'package:logiclub/features/Admin_screen/presentation/view/screen/logout.dart';
+import 'package:logiclub/features/Settings_screen/presentation/view/Settings_screen.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -25,17 +22,17 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       appBar: AppBar(
         toolbarHeight: 20.sp,
         iconTheme: IconThemeData(
-          color: Colors.white,
-          size: devicemediaorientation == Orientation.portrait ? 15.sp : 10.sp,
+          color: color.fontcolor,
+          size: devicemediaorientation == Orientation.portrait ? 10.sp : 8.sp,
         ),
         backgroundColor: color.blackColor,
         title: Text(
           'Admin Dashboard',
           style: TextStyle(
             fontSize: devicemediaorientation == Orientation.portrait
-                ? 15.sp
-                : 10.sp,
-            color: color.whiteColor,
+                ? 10.sp
+                : 8.sp,
+            color: color.fontcolor,
             fontWeight: FontWeight.bold,
           ),
           textAlign: TextAlign.left,
@@ -51,66 +48,49 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           ),
         ),
         child: devicemediaorientation == Orientation.portrait
-            ? AdminDashboardScreenBodyPortrait()
-            : AdminDashboardScreenBodyLandscape(),
+            ? const AdminDashboardScreenBodyPortrait()
+            : const AdminDashboardScreenBodyLandscape(),
       ),
 
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // LOG OUT BUTTON
-          SizedBox(
-            height: devicemediaorientation == Orientation.portrait
-                ? MediaQuery.of(context).size.height * 0.09
-                : MediaQuery.of(context).size.height * 0.1,
-            width: devicemediaorientation == Orientation.portrait
-                ? MediaQuery.of(context).size.width * 0.13
-                : MediaQuery.of(context).size.width * 0.05,
-            child: FloatingActionButton(
-              heroTag: 'logoutButton',
-              onPressed: () => {
-                Logout.logout(
-                  context,
-                  "Are you sure you want to logout?",
-                  color.redColor,
-                ),
-              },
-              backgroundColor: color.primary,
-              child: Icon(
-                Icons.logout,
-                size: devicemediaorientation == Orientation.portrait
-                    ? 17.w
-                    : 10.w,
-                color: color.whiteColor,
-              ),
-            ),
-          ),
           SizedBox(
             width: devicemediaorientation == Orientation.portrait
                 ? MediaQuery.of(context).size.width * 0.03
                 : MediaQuery.of(context).size.width * 0.03,
           ),
-          //Add givaway button
+          // Settings button
           SizedBox(
             height: devicemediaorientation == Orientation.portrait
                 ? MediaQuery.of(context).size.height * 0.09
-                : MediaQuery.of(context).size.height * 0.1,
+                : MediaQuery.of(context).size.height * 0.09,
             width: devicemediaorientation == Orientation.portrait
                 ? MediaQuery.of(context).size.width * 0.13
                 : MediaQuery.of(context).size.width * 0.05,
             child: FloatingActionButton(
               heroTag: 'givawayButton',
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => GivawayScreen()),
-              ),
+              onPressed: () async {
+                // 💡 الانتظار لحين العودة من شاشة الإعدادات
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsScreen(),
+                  ),
+                );
+                setState(() {});
+
+                if (mounted) {
+                  setState(() {});
+                }
+              },
               backgroundColor: color.primary,
               child: Icon(
-                Icons.emoji_events,
+                Icons.settings,
                 size: devicemediaorientation == Orientation.portrait
-                    ? 17.w
-                    : 10.w,
-                color: color.whiteColor,
+                    ? 12.w
+                    : 8.w,
+                color: color.fontcolor,
               ),
             ),
           ),
@@ -119,11 +99,11 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 ? MediaQuery.of(context).size.width * 0.03
                 : MediaQuery.of(context).size.width * 0.03,
           ),
-          //Addd quiz button
+          // Add quiz button
           SizedBox(
             height: devicemediaorientation == Orientation.portrait
                 ? MediaQuery.of(context).size.height * 0.09
-                : MediaQuery.of(context).size.height * 0.1,
+                : MediaQuery.of(context).size.height * 0.09,
             width: devicemediaorientation == Orientation.portrait
                 ? MediaQuery.of(context).size.width * 0.13
                 : MediaQuery.of(context).size.width * 0.05,
@@ -134,9 +114,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               child: Icon(
                 Icons.add,
                 size: devicemediaorientation == Orientation.portrait
-                    ? 17.w
-                    : 10.w,
-                color: color.whiteColor,
+                    ? 12.w
+                    : 8.w,
+                color: color.fontcolor,
               ),
             ),
           ),

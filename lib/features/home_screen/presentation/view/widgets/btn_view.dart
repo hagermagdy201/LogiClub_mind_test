@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/view_category_screen/presentation/view/view_category_screen.dart';
 
 class BtnView extends StatelessWidget {
@@ -26,7 +26,7 @@ class BtnView extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: color.whiteColor,
+        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: color.secondary, width: 2.sp),
           borderRadius: BorderRadius.circular(10.sp),

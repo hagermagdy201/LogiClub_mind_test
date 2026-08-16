@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Add_question_scren/presentation/question_screen.dart';
-import 'package:logiclub/features/Add_question_scren/presentation/widgets/LandScape_Screen/app_dialog.dart';
 import 'package:logiclub/features/Admin_screen/presentation/view/widgets/snackbar.dart';
 
 class AdminDashboardScreenBodyLandscape extends StatefulWidget {
@@ -27,28 +26,32 @@ class _AdminDashboardScreenBodyState
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                 return Center(
                   child: Text(
-                    "No categories found  '-'",
+                    "No categories found '-'",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.sp,
-                      color: color.whiteColor,
+                      color: color.fontcolor,
                     ),
                   ),
                 );
               }
 
               final docs = snapshot.data!.docs;
-              final categoryCount = snapshot.data!.docs.length;
+              final categoryCount = docs.length;
 
               return ListView.builder(
                 itemCount: categoryCount,
                 itemBuilder: (context, index) {
                   final categoryId = docs[index].id;
+                  final categoryData =
+                      docs[index].data() as Map<String, dynamic>;
+                  final categoryName = categoryData['name'] ?? '';
+
                   return Container(
                     margin: EdgeInsets.symmetric(
                       vertical: 5.w,
@@ -56,15 +59,15 @@ class _AdminDashboardScreenBodyState
                     ),
                     padding: EdgeInsets.all(5.sp),
                     decoration: BoxDecoration(
-                      color: Colors.black54,
+                      color: color.blackColor,
                       borderRadius: BorderRadius.circular(10.w),
                     ),
                     child: ListTile(
                       title: Text(
-                        docs[index]['name'],
+                        categoryName,
                         style: TextStyle(
-                          fontSize: 10.sp,
-                          color: Colors.white,
+                          fontSize: 8.sp,
+                          color: color.fontcolor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -75,20 +78,22 @@ class _AdminDashboardScreenBodyState
                             .collection('questions')
                             .snapshots(),
                         builder: (context, snapshot) {
-                          if (!snapshot.hasData) return Text("Loading...");
+                          if (!snapshot.hasData) {
+                            return const Text("Loading...");
+                          }
                           final count = snapshot.data!.docs.length;
                           return Text(
                             "Num of Questions: $count",
                             style: TextStyle(
-                              fontSize: 8.sp,
-                              color: Colors.white70,
+                              fontSize: 6.sp,
+                              color: color.fontcolor,
                             ),
                           );
                         },
                       ),
                       trailing: PopupMenuButton<int>(
-                        icon: Icon(Icons.more_vert, color: color.whiteColor),
-                        color: const Color.fromARGB(255, 255, 255, 255),
+                        icon: Icon(Icons.more_vert, color: color.fontcolor),
+                        color: Colors.white,
                         iconSize: 10.sp,
                         onSelected: (value) async {
                           switch (value) {
@@ -98,7 +103,7 @@ class _AdminDashboardScreenBodyState
                                 MaterialPageRoute(
                                   builder: (context) {
                                     return QuestionScreen(
-                                      categoryName: docs[index]['name'],
+                                      categoryName: categoryName,
                                     );
                                   },
                                 ),
@@ -106,18 +111,17 @@ class _AdminDashboardScreenBodyState
                               break;
                             case 2:
                               // Navigate to Question Bank Screen
-
                               break;
                             case 3:
                               await FirebaseFirestore.instance
                                   .collection('questions_category')
-                                  .doc(docs[index]['name'])
+                                  .doc(categoryId)
                                   .delete();
 
                               SnackbarScreen.showSuccess(
                                 "Deleted",
                                 "Category Deleted successfully",
-                                color.greenColor,
+                                color.primary,
                               );
                               break;
                           }

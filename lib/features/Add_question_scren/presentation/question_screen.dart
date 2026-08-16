@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Add_question_scren/presentation/widgets/LandScape_Screen/question_screen_body_landscape.dart';
 import 'package:logiclub/features/Add_question_scren/presentation/widgets/Portrait_screen/question_screen_body_portrait.dart';
 
@@ -33,7 +33,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             fontSize: devicemediaorientation == Orientation.portrait
                 ? 15.sp
                 : 10.sp,
-            color: color.whiteColor,
+            color: color.fontcolor,
             fontWeight: FontWeight.bold,
           ),
         ),

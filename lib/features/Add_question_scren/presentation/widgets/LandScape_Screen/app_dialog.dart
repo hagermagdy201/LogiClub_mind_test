@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 
 class AppDialog {
   static void showSuccess(
@@ -39,7 +39,7 @@ class AppDialog {
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
               child: Text(
                 "OK",
-                style: TextStyle(color: color.whiteColor, fontSize: 10.sp),
+                style: TextStyle(color: color.fontcolor, fontSize: 10.sp),
               ),
             ),
           ),

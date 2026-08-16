@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/view_category_screen/presentation/view/widgets/view_category_screen_body.dart';
 
 class ViewCategoryScreen extends StatelessWidget {
@@ -14,14 +14,14 @@ class ViewCategoryScreen extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 110,
         iconTheme: IconThemeData(
-          color: color.whiteColor,
+          color: color.fontcolor,
           size: 16.sp,
           weight: 900,
         ),
         title: Text(
           "Choose your category and let’s go",
           style: TextStyle(
-            color: color.whiteColor,
+            color: color.fontcolor,
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
             fontFamily: "Chewy",

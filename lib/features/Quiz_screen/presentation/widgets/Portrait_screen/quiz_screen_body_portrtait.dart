@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Quiz_screen/presentation/widgets/quiz_helpers.dart';
 import 'package:logiclub/features/spin_wheel_screen/presentation/spin_wheel_screen.dart';
 import 'dart:ui';
@@ -116,7 +116,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyPortrtait> {
                             child: Text(
                               "No questions found for this category '-'",
                               style: TextStyle(
-                                color: color.whiteColor,
+                                color: color.fontcolor,
                                 fontSize: 20.sp,
                                 fontFamily: "Chewy",
                               ),
@@ -163,7 +163,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyPortrtait> {
                             child: Text(
                               questionData['question'] ?? 'No question text',
                               style: TextStyle(
-                                color: color.whiteColor,
+                                color: color.fontcolor,
                                 fontSize: 26.sp,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "Chewy",
@@ -181,7 +181,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyPortrtait> {
 
                             final isSelected = selectedIndex == optionIndex;
 
-                            Color btnColor = color.cardColor;
+                            Color btnColor = color.cardcolor;
                             if (isSelected) {
                               if ((optionIndex) == correctAnswer) {
                                 btnColor = Colors.green;
@@ -398,7 +398,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyPortrtait> {
                                     child: Text(
                                       optionText,
                                       style: TextStyle(
-                                        color: color.whiteColor,
+                                        color: color.fontcolor,
                                         fontSize: 28.sp,
                                         fontFamily: "Chewy",
                                       ),

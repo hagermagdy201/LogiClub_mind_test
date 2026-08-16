@@ -5,7 +5,7 @@ import 'dart:ui' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 
 class Logout {
   static void logout(BuildContext context, String message, Color mainColor) {
@@ -32,7 +32,7 @@ class Logout {
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
               child: Text(
                 "Sure",
-                style: TextStyle(color: color.whiteColor, fontSize: 8.sp),
+                style: TextStyle(color: color.fontcolor, fontSize: 8.sp),
               ),
             ),
           ),

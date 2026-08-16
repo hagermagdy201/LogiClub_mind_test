@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Quiz_screen/presentation/widgets/quiz_helpers.dart';
 import 'package:logiclub/features/spin_wheel_screen/presentation/spin_wheel_screen.dart';
 import 'dart:ui';
@@ -94,7 +94,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
                       child: Text(
                         "No questions found for this category '-'",
                         style: TextStyle(
-                          color: color.whiteColor,
+                          color: color.fontcolor,
                           fontSize: 15.sp,
                           fontFamily: "Chewy",
                         ),
@@ -141,7 +141,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
                       child: Text(
                         questionData['question'] ?? 'No question text',
                         style: TextStyle(
-                          color: color.whiteColor,
+                          color: color.fontcolor,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.bold,
                           fontFamily: "Chewy",
@@ -164,8 +164,8 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
 
                               final isSelected = selectedIndex == optionIndex;
 
-                              // تحديد لون الزر بناءً على اختيار المستخدم
-                              Color btnColor = color.cardColor;
+                              Color btnColor =
+                                  color.cardcolor; // اللون الافتراضي للزر
                               if (isSelected) {
                                 if (optionIndex == correctAnswer) {
                                   btnColor = Colors.green; // اختيار صح
@@ -335,7 +335,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
                                       child: Text(
                                         optionText,
                                         style: TextStyle(
-                                          color: color.whiteColor,
+                                          color: color.fontcolor,
                                           fontSize: 14.sp,
                                           fontFamily: "Chewy",
                                         ),

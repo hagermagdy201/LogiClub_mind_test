@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Admin_screen/presentation/view/widgets/snackbar.dart';
 
 class GivawayPortraitScreenBody extends StatefulWidget {
@@ -136,7 +136,7 @@ class _GivawayPortraitScreenBodyState extends State<GivawayPortraitScreenBody> {
                           padding: EdgeInsets.all(8.sp),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.sp),
-                            color: color.cardColor,
+                            color: color.fontcolor,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

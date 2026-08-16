@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Givaway_screen/presentation/view/widgets/LandScape_Screen/givaway_landscape_screen_body.dart';
 import 'package:logiclub/features/Givaway_screen/presentation/view/widgets/Portrait_screen/givaway_portrait_screen_body.dart';
 
@@ -31,7 +31,7 @@ class _GivawayScreenState extends State<GivawayScreen> {
             fontSize: devicemediaorientation == Orientation.portrait
                 ? 15.sp
                 : 10.sp,
-            color: color.whiteColor,
+            color: color.fontcolor,
             fontWeight: FontWeight.bold,
           ),
         ),

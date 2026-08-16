@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoLandscape extends StatefulWidget {
@@ -64,7 +64,7 @@ class _VideoLandscapeState extends State<VideoLandscape> {
             },
             child: Icon(
               isLooping ? Icons.repeat : Icons.repeat,
-              color: color.whiteColor,
+              color: color.fontcolor,
             ),
           ),
 
@@ -82,7 +82,7 @@ class _VideoLandscapeState extends State<VideoLandscape> {
             },
             child: Icon(
               _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-              color: color.whiteColor,
+              color: color.fontcolor,
             ),
           ),
         ],

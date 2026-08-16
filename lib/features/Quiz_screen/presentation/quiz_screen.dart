@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/features/Quiz_screen/presentation/widgets/LandScape_Screen/quiz_screen_body_landscape.dart';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:logiclub/features/Quiz_screen/presentation/widgets/Portrait_screen/quiz_screen_body_portrtait.dart';
 
 class QuizScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class QuizScreen extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 100,
         iconTheme: IconThemeData(
-          color: color.whiteColor,
+          color: color.fontcolor,
           size: 16.sp,
           weight: 900,
         ),

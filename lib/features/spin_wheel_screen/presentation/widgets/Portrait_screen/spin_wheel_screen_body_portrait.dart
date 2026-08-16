@@ -6,7 +6,7 @@ import 'package:logiclub/core/utils/classes/assets_image.dart';
 import 'package:logiclub/core/utils/classes/assets_sound.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'dart:async';
-import 'package:logiclub/core/utils/classes/color.dart' as color;
+import 'package:logiclub/core/utils/classes/color.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SpinWheelScreenBodyPortrait extends StatefulWidget {
@@ -81,7 +81,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyPortrait> {
                   fontSize: 28.sp,
                   fontFamily: "Chewy",
                   fontWeight: FontWeight.bold,
-                  color: color.whiteColor,
+                  color: color.fontcolor,
                 ),
               ),
             ],
@@ -136,9 +136,9 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyPortrait> {
                                     i / (giveaways.length - 0.9),
                                   ) ??
                                   Color(0xFF00C9FF),
-                              borderColor: color.whiteColor,
+                              borderColor: color.fontcolor,
                               borderWidth: 4,
-                              textStyle: TextStyle(color: color.whiteColor),
+                              textStyle: TextStyle(color: color.fontcolor),
                             ),
                           ),
                       ],
