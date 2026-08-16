@@ -65,7 +65,9 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyPortrait> {
           height: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(AssetsPaths.orangebackgroundImage),
+              image: AssetImage(
+                AssetsPaths.blackbackgroundImage,
+              ), //===========================================
               fit: BoxFit.fill,
             ),
           ),
@@ -177,7 +179,8 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyPortrait> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(25),
                                     child: Image.asset(
-                                      AssetsPaths.bluebackgroundImage,
+                                      AssetsPaths
+                                          .blackbackgroundImage, //====================================
                                       fit: BoxFit.cover,
                                     ),
                                   ),

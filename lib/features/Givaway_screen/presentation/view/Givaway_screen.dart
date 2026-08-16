@@ -22,15 +22,15 @@ class _GivawayScreenState extends State<GivawayScreen> {
         toolbarHeight: 20.sp,
         iconTheme: IconThemeData(
           color: Colors.white,
-          size: devicemediaorientation == Orientation.portrait ? 15.sp : 10.sp,
+          size: devicemediaorientation == Orientation.portrait ? 12.sp : 8.sp,
         ),
         backgroundColor: color.blackColor,
         title: Text(
           'Add Givaway',
           style: TextStyle(
             fontSize: devicemediaorientation == Orientation.portrait
-                ? 15.sp
-                : 10.sp,
+                ? 10.sp
+                : 8.sp,
             color: color.fontcolor,
             fontWeight: FontWeight.bold,
           ),

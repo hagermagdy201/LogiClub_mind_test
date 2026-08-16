@@ -1,8 +1,9 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
 import 'package:logiclub/core/utils/classes/color.dart';
@@ -25,6 +26,10 @@ class SettingsLandscapeScreenBody extends StatefulWidget {
 class _SettingsLandscapeScreenBodyState
     extends State<SettingsLandscapeScreenBody> {
   // ================== image code start ==================
+
+  // 🔑 ضع هنا الـ API Key الخاص بك من موقع ImgBB
+  final String _imgBbApiKey = '90fe65f67c7f15d415770d340f67785b';
+
   Uint8List? _logoBytes;
   bool _isLogoLoading = false;
 
@@ -34,60 +39,139 @@ class _SettingsLandscapeScreenBodyState
   Uint8List? _secondaryBgBytes;
   bool _isSecondaryBgLoading = false;
 
-  Future<void> _uploadImageToFirebase(Uint8List bytes, ImageType type) async {
+  /// 📥 دالة جلب الصور الحالية المخزنة في Firestore عند فتح الشاشة
+  Future<void> _fetchSavedImages() async {
+    _setLoading(ImageType.logo, true);
+    _setLoading(ImageType.mainBg, true);
+    _setLoading(ImageType.secondaryBg, true);
+
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('images')
+          .get();
+
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        final String? imageUrl = data['imageUrl'];
+
+        if (imageUrl != null && imageUrl.isNotEmpty) {
+          // تنزيل بكتات الصورة لتحويلها إلى Uint8List وعرضها في الـ Cards
+          final response = await http.get(Uri.parse(imageUrl));
+          if (response.statusCode == 200) {
+            final Uint8List bytes = response.bodyBytes;
+            setState(() {
+              if (doc.id == 'logo') {
+                _logoBytes = bytes;
+              } else if (doc.id == 'main_bg') {
+                _mainBgBytes = bytes;
+              } else if (doc.id == 'secondary_bg') {
+                _secondaryBgBytes = bytes;
+              }
+            });
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Error fetching images from Firestore: $e');
+    } finally {
+      _setLoading(ImageType.logo, false);
+      _setLoading(ImageType.mainBg, false);
+      _setLoading(ImageType.secondaryBg, false);
+    }
+  }
+
+  /// 1. دالة رفع الصورة إلى ImgBB API واسترجاع رابط الصورة المباشر
+  Future<String?> _uploadImageToImgBB(Uint8List bytes) async {
+    try {
+      final Uri url = Uri.parse(
+        'https://api.imgbb.com/1/upload?key=$_imgBbApiKey',
+      );
+
+      var request = http.MultipartRequest('POST', url);
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'image',
+          bytes,
+          filename: 'upload_${DateTime.now().millisecondsSinceEpoch}.png',
+        ),
+      );
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        return jsonResponse['data']['url'];
+      } else {
+        debugPrint('ImgBB Upload Error: ${response.body}');
+        return null;
+      }
+    } catch (e) {
+      debugPrint('Error uploading to ImgBB: $e');
+      return null;
+    }
+  }
+
+  /// 2. دالة التعامل مع الرفع الكامل: رفع لـ ImgBB ثم حفظ الرابط في Firestore
+  Future<void> _processImageUpload(Uint8List bytes, ImageType type) async {
+    _setLoading(type, true);
+
     try {
       String docId;
-      String storagePath;
-
       switch (type) {
         case ImageType.logo:
           docId = 'logo';
-          storagePath = 'app_images/logo.png';
           break;
         case ImageType.mainBg:
           docId = 'main_bg';
-          storagePath = 'app_images/main_bg.png';
           break;
         case ImageType.secondaryBg:
           docId = 'secondary_bg';
-          storagePath = 'app_images/secondary_bg.png';
           break;
       }
 
-      final storageRef = FirebaseStorage.instance.ref().child(storagePath);
-      final uploadTask = await storageRef.putData(
-        bytes,
-        SettableMetadata(contentType: 'image/png'),
-      );
+      final String? imageUrl = await _uploadImageToImgBB(bytes);
 
-      final String downloadUrl = await uploadTask.ref.getDownloadURL();
+      if (imageUrl != null) {
+        await FirebaseFirestore.instance.collection('images').doc(docId).set({
+          'imageUrl': imageUrl,
+          'updatedAt': FieldValue.serverTimestamp(),
+          'type': docId,
+        }, SetOptions(merge: true));
 
-      await FirebaseFirestore.instance.collection('images').doc(docId).set({
-        'imageUrl': downloadUrl,
-        'updatedAt': FieldValue.serverTimestamp(),
-        'type': docId,
-      }, SetOptions(merge: true));
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('$docId image uploaded & saved successfully!'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('$docId Image uploaded successfully!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Failed to upload image to ImgBB server.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to upload image: $e'),
+            content: Text('Error saving image data: $e'),
             backgroundColor: Colors.red,
           ),
         );
       }
+    } finally {
+      _setLoading(type, false);
     }
   }
 
+  /// 3. دالة اختيار الصورة من جهاز المستخدم
   Future<void> _pickImage(ImageType type) async {
     final ImagePicker picker = ImagePicker();
     final XFile? pickedFile = await picker.pickImage(
@@ -96,8 +180,6 @@ class _SettingsLandscapeScreenBodyState
     );
 
     if (pickedFile != null) {
-      _setLoading(type, true);
-
       final Uint8List bytes = await pickedFile.readAsBytes();
 
       setState(() {
@@ -114,8 +196,7 @@ class _SettingsLandscapeScreenBodyState
         }
       });
 
-      await _uploadImageToFirebase(bytes, type);
-      _setLoading(type, false);
+      await _processImageUpload(bytes, type);
     }
   }
 
@@ -293,10 +374,12 @@ class _SettingsLandscapeScreenBodyState
   }
 
   // ================== color theme code end ==================
+
   @override
   void initState() {
     super.initState();
     _fetchCurrentTheme();
+    _fetchSavedImages(); // 👈 استدعاء جلب الصور المحفوظة عند فتح الشاشة
   }
 
   @override
@@ -466,33 +549,70 @@ class _SettingsLandscapeScreenBodyState
             ),
           ),
           const SizedBox(height: 32),
+
           // ================= Section 3: Images =================
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ImageCardSection(
-                title: 'Change Logo Image',
-                imageBytes: _logoBytes,
-                isLoading: _isLogoLoading,
-                onTapPick: () => _pickImage(ImageType.logo),
-                emptyText: 'Tap the (+) button to select a logo image',
-              ),
-              ImageCardSection(
-                title: 'Change Main Background Image',
-                imageBytes: _mainBgBytes,
-                isLoading: _isMainBgLoading,
-                onTapPick: () => _pickImage(ImageType.mainBg),
-                emptyText: 'Tap the (+) button to select a background image',
-              ),
-              ImageCardSection(
-                title: 'Change Secondary Background Image',
-                imageBytes: _secondaryBgBytes,
-                isLoading: _isSecondaryBgLoading,
-                onTapPick: () => _pickImage(ImageType.secondaryBg),
-                emptyText: 'Tap the (+) button to select a background image',
-              ),
-            ],
+          Container(
+            padding: const EdgeInsets.all(30.0),
+            decoration: BoxDecoration(
+              color: color.blackColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'App Image Settings',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: color.fontcolor,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Select images to upload via ImgBB API and save links to Firestore',
+                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: ImageCardSection(
+                        title: 'Change Logo Image',
+                        imageBytes: _logoBytes,
+                        isLoading: _isLogoLoading,
+                        onTapPick: () => _pickImage(ImageType.logo),
+                        emptyText: 'Tap the (+) button to select a logo image',
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ImageCardSection(
+                        title: 'Change Main Background Image',
+                        imageBytes: _mainBgBytes,
+                        isLoading: _isMainBgLoading,
+                        onTapPick: () => _pickImage(ImageType.mainBg),
+                        emptyText:
+                            'Tap the (+) button to select a background image',
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ImageCardSection(
+                        title: 'Change Secondary Background Image',
+                        imageBytes: _secondaryBgBytes,
+                        isLoading: _isSecondaryBgLoading,
+                        onTapPick: () => _pickImage(ImageType.secondaryBg),
+                        emptyText:
+                            'Tap the (+) button to select a background image',
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

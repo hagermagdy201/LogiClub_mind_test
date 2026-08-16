@@ -46,7 +46,7 @@ class _GivawayScreenBodyLandscapeState
             TextFormField(
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 12.sp,
+                fontSize: 8.sp,
                 fontWeight: FontWeight.bold,
               ),
               controller: givawayController,
@@ -55,7 +55,7 @@ class _GivawayScreenBodyLandscapeState
                 hintText: "Givaway Name",
                 hintStyle: TextStyle(
                   color: Color.fromARGB(201, 190, 190, 190),
-                  fontSize: 10.sp,
+                  fontSize: 6.sp,
                   fontWeight: FontWeight.bold,
                 ),
                 enabledBorder: OutlineInputBorder(
@@ -73,8 +73,8 @@ class _GivawayScreenBodyLandscapeState
                   fontWeight: FontWeight.bold,
                 ),
                 contentPadding: EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 10,
+                  vertical: 16,
+                  horizontal: 7,
                 ),
               ),
             ),
@@ -102,7 +102,10 @@ class _GivawayScreenBodyLandscapeState
                 ),
                 minimumSize: Size(90.w, 50.h),
               ),
-              child: Text('Add Givaway', style: TextStyle(fontSize: 9.sp)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Add Givaway', style: TextStyle(fontSize: 7.sp)),
+              ),
             ),
 
             Container(
@@ -146,7 +149,7 @@ class _GivawayScreenBodyLandscapeState
                                 giveaway['name'] ?? 'No Name',
                                 style: TextStyle(
                                   color: color.blackColor,
-                                  fontSize: 10.sp,
+                                  fontSize: 8.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -161,7 +164,8 @@ class _GivawayScreenBodyLandscapeState
                                 },
                                 icon: Icon(
                                   Icons.delete_forever_rounded,
-                                  color: color.blackColor,
+                                  color: color.redColor,
+                                  size: 8.sp,
                                 ),
                               ),
                             ],

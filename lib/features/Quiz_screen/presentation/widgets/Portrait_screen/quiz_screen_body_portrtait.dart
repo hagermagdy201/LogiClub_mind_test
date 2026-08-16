@@ -150,7 +150,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyPortrtait> {
                               borderRadius: BorderRadius.circular(15.r),
                               image: DecorationImage(
                                 image: AssetImage(
-                                  AssetsPaths.orangebackgroundImage,
+                                  AssetsPaths.blackbackgroundImage,
                                 ),
                                 fit: BoxFit.cover,
                                 colorFilter: ColorFilter.mode(
