@@ -27,9 +27,8 @@ class _HomeViewLandscapeState extends State<HomeViewLandscape> {
         if (snapshot.hasData && snapshot.data!.exists) {
           final data = snapshot.data!.data() as Map<String, dynamic>?;
           if (data != null) {
-            color.updateFromFirestore(
-              data,
-            ); // أو AppColors.updateFromFirestore(data)
+            // 1. تحديث البيانات في ملف الألوان
+            color.updateFromFirestore(data);
           }
         }
 
@@ -41,6 +40,8 @@ class _HomeViewLandscapeState extends State<HomeViewLandscape> {
                 : AssetImage(imagePath) as ImageProvider;
 
             return Center(
+              // إعطاء Key يعتمد على اللون ليدفع الزر BtnView لإعادة البناء فوراً
+              key: ValueKey('${color.primary.value}_${color.secondary.value}'),
               child: SingleChildScrollView(
                 child: Container(
                   width: 0.9.sw,

@@ -480,7 +480,7 @@ class _SettingsLandscapeScreenBodyState
                           _previewPrimary = _hexToColor(val);
                         });
                       },
-                      defualt: '#FFffa424',
+                      defualt: '#FFFFa424',
                     ),
                     buildHexInputField(
                       title: 'Secondary Color',
