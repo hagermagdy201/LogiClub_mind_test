@@ -5,14 +5,16 @@ import 'package:logiclub/features/Quiz_screen/presentation/quiz_screen.dart';
 import 'package:logiclub/features/view_category_screen/presentation/view/widgets/card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class ViewCategoryScreenBody extends StatefulWidget {
-  const ViewCategoryScreenBody({super.key});
+class ViewCategoryScreenBodyLandscape extends StatefulWidget {
+  const ViewCategoryScreenBodyLandscape({super.key});
 
   @override
-  State<ViewCategoryScreenBody> createState() => _ViewCategoryScreenBodyState();
+  State<ViewCategoryScreenBodyLandscape> createState() =>
+      _ViewCategoryScreenBodyLandscapeState();
 }
 
-class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
+class _ViewCategoryScreenBodyLandscapeState
+    extends State<ViewCategoryScreenBodyLandscape> {
   final categoryStream = FirebaseFirestore.instance
       .collection('questions_category')
       .snapshots();
@@ -38,6 +40,7 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
                     title: "No categories found   '-'",
                     numofQue: '0',
                     bgColor: color.fontcolor,
+                    position: 1,
                   ),
                 );
               }
@@ -85,6 +88,7 @@ class _ViewCategoryScreenBodyState extends State<ViewCategoryScreenBody> {
                           title: categoryName,
                           numofQue: count.toString(),
                           bgColor: color.cardcolor,
+                          position: 1,
                         );
                       },
                     ),

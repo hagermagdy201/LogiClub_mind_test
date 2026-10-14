@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logiclub/core/utils/classes/assets_image.dart';
 import 'package:logiclub/core/utils/classes/color.dart';
-import 'package:logiclub/features/view_category_screen/presentation/view/widgets/view_category_screen_body.dart';
+import 'package:logiclub/features/view_category_screen/presentation/view/widgets/Portrait_screen/view_category_screen_body_portrait.dart';
+import 'package:logiclub/features/view_category_screen/presentation/view/widgets/LandScape_screen%27/view_category_screen_body_LandScape.dart';
 
 class ViewCategoryScreen extends StatelessWidget {
   const ViewCategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final devicemediaorientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -22,7 +25,9 @@ class ViewCategoryScreen extends StatelessWidget {
           "Choose your category and let’s go",
           style: TextStyle(
             color: color.fontcolor,
-            fontSize: 18.sp,
+            fontSize: devicemediaorientation == Orientation.portrait
+                ? 20.sp
+                : 16.sp,
             fontWeight: FontWeight.bold,
             fontFamily: "Chewy",
           ),
@@ -45,7 +50,9 @@ class ViewCategoryScreen extends StatelessWidget {
             fit: BoxFit.fill,
           ),
         ),
-        child: ViewCategoryScreenBody(),
+        child: devicemediaorientation == Orientation.portrait
+            ? const ViewCategoryScreenBodyPortrait()
+            : const ViewCategoryScreenBodyLandscape(),
       ),
     );
   }

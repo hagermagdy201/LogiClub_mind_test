@@ -22,7 +22,7 @@ class QuizHelpers {
     String soundPath = QuizConstants.failSounds[index];
     // print(":__________________index $index");
     await player.play(AssetSource(soundPath));
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 2), () {
       player.stop();
     });
   }

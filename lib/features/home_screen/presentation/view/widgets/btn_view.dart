@@ -22,7 +22,7 @@ class BtnView extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const ViewCategoryScreen()),
+          MaterialPageRoute(builder: (context) => ViewCategoryScreen()),
         );
       },
       style: ElevatedButton.styleFrom(

@@ -66,7 +66,8 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyPortrait> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                AssetsPaths.blackbackgroundImage,
+                AssetsPaths
+                    .orangebg, //===========================================
               ), //===========================================
               fit: BoxFit.fill,
             ),
@@ -180,7 +181,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyPortrait> {
                                     borderRadius: BorderRadius.circular(25),
                                     child: Image.asset(
                                       AssetsPaths
-                                          .blackbackgroundImage, //====================================
+                                          .bluenote, //====================================
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -228,7 +229,7 @@ class _SpinWheelScreenBodyState extends State<SpinWheelScreenBodyPortrait> {
                                       child: Text(
                                         'Hope to see you again 👋🏻',
                                         style: TextStyle(
-                                          fontSize: 20.sp,
+                                          fontSize: 12.sp,
                                           fontFamily: "Chewy",
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,

@@ -5,12 +5,14 @@ class CategoryCard extends StatelessWidget {
   final String title;
   final String numofQue;
   final Color bgColor;
+  final int? position; // Optional position parameter
 
   const CategoryCard({
     super.key,
     required this.title,
     required this.numofQue,
     required this.bgColor,
+    required this.position,
   });
 
   @override
@@ -36,7 +38,7 @@ class CategoryCard extends StatelessWidget {
                   overflow: TextOverflow.visible,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 12.sp,
+                    fontSize: position == 0 ? 20.sp : 12.sp,
                     fontFamily: "Chewy",
                     color: Colors.white,
                   ),
@@ -48,7 +50,7 @@ class CategoryCard extends StatelessWidget {
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 11.sp,
+                    fontSize: position == 0 ? 16.sp : 12.sp,
                     color: Colors.white70,
                     fontFamily: "Chewy",
                   ),

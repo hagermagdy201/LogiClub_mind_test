@@ -34,6 +34,8 @@ class AssetsPaths {
   static String sad6 = "assets/images/sad6.jpeg";
   static String sad7 = "assets/images/sad7.jpeg";
   static String hayahLogo = "assets/images/Hayah_page_1.png";
+  static String orangebg = "assets/images/orangebacknote.png";
+  static String bluenote = "assets/images/bluenote.png";
 
   static void listenToDynamicAssets() {
     FirebaseFirestore.instance

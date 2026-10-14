@@ -324,7 +324,7 @@ class _QuizScreenBodyState extends State<QuizScreenBodyLandscape> {
 
                                                       Future.delayed(
                                                         const Duration(
-                                                          seconds: 2,
+                                                          milliseconds: 1500,
                                                         ),
                                                         () {
                                                           if (!mounted) return;

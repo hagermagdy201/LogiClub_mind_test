@@ -39,7 +39,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    // الاستماع المباشر للتغيرات في الألوان وإعادة رسم التطبيق فوراً
     FirebaseFirestore.instance
         .collection('app_settings')
         .doc('theme')
@@ -63,9 +62,7 @@ class _MyAppState extends State<MyApp> {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-          key: ValueKey(
-            '${color.primary.value}_${color.secondary.value}',
-          ), // يضمن إعطاء تنبيه للتطبيق بإعادة الرسم فور تغير الألوان
+          key: ValueKey('${color.primary.value}_${color.secondary.value}'),
           debugShowCheckedModeBanner: false,
           home: const HomeScreen(),
         );

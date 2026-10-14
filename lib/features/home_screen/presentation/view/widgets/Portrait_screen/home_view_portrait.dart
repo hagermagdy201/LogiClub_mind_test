@@ -73,14 +73,14 @@ class _HomeViewPortraitState extends State<HomeViewPortrait> {
                               children: [
                                 TxtView(
                                   text: "Welcome!",
-                                  fontSize: 28.sp.toInt(),
+                                  fontSize: 18.sp.toInt(),
                                   weight: FontWeight.bold,
                                   color: color.primary,
                                 ),
                                 SizedBox(height: 15.h),
                                 TxtView(
                                   text: 'Let’s test your brain power! Ready?',
-                                  fontSize: 12.sp.toInt(),
+                                  fontSize: 8.sp.toInt(),
                                   weight: FontWeight.w600,
                                   color: color.primary,
                                 ),
